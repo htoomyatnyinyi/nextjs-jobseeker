@@ -31,8 +31,8 @@ export async function decrypt(input: string): Promise<any> {
       algorithms: ["HS256"],
     });
 
-    // console.log(payload, "check payload after decrypt");
-    return payload;
+    // console.log(payload, "check payload at decrypt");
+    return payload; // Contains { userId, role, iat, exp }
   } catch (error) {
     return null; // This will catch expired tokens or invalid signatures
   }
@@ -47,12 +47,10 @@ export async function createSession(userId: string) {
   if (!user) {
     throw new Error("User not found");
   }
-  /* 
-  I update it.
-  */
 
   const expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // Expires in 24 hours
-  const session = await encrypt({ userId, expires });
+  const session = await encrypt({ userId: user.id, role: user.role, expires });
+  // const session = await encrypt({ userId, expires });
 
   //   const cookieStore = await cookies();
   //   cookieStore.set(cookie.name, session, { ...cookie.options, expires });

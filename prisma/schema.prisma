@@ -28,7 +28,7 @@ model User {
   verificationTokens  VerificationToken[]
   // jobSeekerProfiles   JobSeekerProfile[]
   jobSeekerProfile   JobSeekerProfile?
-  employerProfiles    EmployerProfile[]
+  employerProfile    EmployerProfile?
 }
 
 model VerificationToken {
@@ -96,9 +96,9 @@ model EmployerProfile {
   id          String  @id @default(cuid())
   companyName String
   registeredNumber  String  @default(cuid())
-  govRegisteredNumber String
+  govRegisteredNumber String?
   phone       String
-  establishDate DateTime?
+  establishedDate DateTime?
   companyEmail  String?
   address     String?
   city        String?
@@ -115,7 +115,7 @@ model EmployerProfile {
   updatedAt  DateTime @updatedAt      
 
   // ---- Relations ----
-  userId      String
+  userId      String  @unique // one to one relationship // if many to many need to remove @unique
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade) 
   // ---- many to many ---
   JobPosts    JobPost[]

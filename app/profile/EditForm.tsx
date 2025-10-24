@@ -13,7 +13,6 @@ import { useActionState } from "react";
 import { editProfile } from "./actions";
 
 const EditForm = ({ data }: any) => {
-  // console.log(data, "check data");
   const [state, action, pending] = useActionState(editProfile, {
     success: false,
     message: "",
