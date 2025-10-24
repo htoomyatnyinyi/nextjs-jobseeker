@@ -95,7 +95,8 @@ export const verifySession = async () => {
 
   const user = await prisma.user.findUnique({
     where: { id: dsession.userId },
-    select: { id: true, verified: true },
+    // select: { id: true, verified: true }, // original code
+    select: { id: true, verified: true, role: true }, // update code
   });
 
   if (!user) {
@@ -105,9 +106,11 @@ export const verifySession = async () => {
   if (!user.verified) {
     redirect("/verify-email");
   }
+  // console.log(user, "d");
 
   // id to userId changed
-  return { userId: user.id };
+  // return { userId: user.id }; // original code
+  return { userId: user.id, role: user.role }; // updaet code
 };
 
 export async function deleteSession() {

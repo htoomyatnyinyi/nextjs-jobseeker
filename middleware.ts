@@ -4,13 +4,13 @@ import { decrypt } from "./lib/session";
 
 // Define protected routes for each role
 const protectedRoutes = {
-  jobSeeker: [
-    "/jobseeker",
-    "/jobseeker/dashboard",
-    "/jobseeker/profile",
-    "/jobseeker/resumes",
-    "/jobseeker/applications",
-    "/jobseeker/saved-jobs",
+  user: [
+    "/user",
+    "/user/dashboard",
+    "/user/profile",
+    "/user/resumes",
+    "/user/applications",
+    "/user/saved-jobs",
   ],
   employer: [
     "/employer",
@@ -28,7 +28,7 @@ const protectedRoutes = {
 
 // Combine all protected routes for quick lookup
 const allProtectedRoutes = [
-  ...protectedRoutes.jobSeeker,
+  ...protectedRoutes.user,
   ...protectedRoutes.employer,
   ...protectedRoutes.admin,
 ];
@@ -67,7 +67,7 @@ export const middleware = async (req: NextRequest) => {
   // Define allowed routes based on role
   let allowedRoutes: string[] = [];
   if (role === "USER") {
-    allowedRoutes = protectedRoutes.jobSeeker;
+    allowedRoutes = protectedRoutes.user;
   } else if (role === "EMPLOYER") {
     allowedRoutes = protectedRoutes.employer;
   } else if (role === "ADMIN") {
@@ -87,7 +87,7 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(
       new URL(
         role === "USER"
-          ? "/jobseeker/dashboard"
+          ? "/user/dashboard"
           : role === "EMPLOYER"
           ? "/employer/dashboard"
           : "/signin",
