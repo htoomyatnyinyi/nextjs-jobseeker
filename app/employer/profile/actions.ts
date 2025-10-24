@@ -26,6 +26,10 @@ const EmployerCompanyProfileSchema = z.object({
   // stats: z.enum(["ACTIVE", "INACTIVE", "PENDING", "SUSPENDED"]).optional(),
   // subscriptionPlan: z.enum(["FREE", "BASIC", "PREMIUM"]).optional(),
 });
+// Schema for profile deletion
+const DeleteCompanyProfileSchema = z.object({
+  profileId: z.string().min(1, "User ID is required"),
+});
 
 // Infer type from schema for type safety
 type ValidatedData = z.infer<typeof EmployerCompanyProfileSchema>;
@@ -87,7 +91,7 @@ export const editProfile = async (state: any, formData: FormData) => {
       companyDescription: rawData.companyDescription || null,
       logoUrl: rawData.logoUrl || null,
     });
-    console.log(validatedData, "validateDAta");
+    // console.log(validatedData, "validateDAta");
   } catch (error) {
     // if (error instanceof z.ZodError) {
     //   // Handle Zod validation errors and return specific messages
@@ -107,7 +111,7 @@ export const editProfile = async (state: any, formData: FormData) => {
       message: "Failed to process form data.",
     };
   }
-  console.log(session.userId, "check id to match with database");
+
   try {
     // 3. Database Operation (Upsert)
     // Use upsert to handle both create and update in one operation
@@ -218,175 +222,25 @@ export const editProfile = async (state: any, formData: FormData) => {
   // }
 };
 
-// "use server";
+// Delete a profile (placeholder for future implementation)
+export const deleteEmployerProfile = async (stae: any, formData: FormData) => {
+  const validatedData = DeleteCompanyProfileSchema.parse({
+    // userId: formData.get("userId"),
+    profileId: formData.get("profileId"),
+  });
 
-// import prisma from "@/lib/prisma";
-// import { verifySession } from "@/lib/session";
-// import { revalidatePath } from "next/cache";
-// import { z } from "zod";
+  try {
+    await prisma.employerProfile.delete({
+      where: { id: validatedData?.profileId },
+    });
 
-// // Schema for profile form validation
-// const EmployerCompanyProfileSchema = z.object({
-//   // userId: z.string().min(1, "User ID is required"),
-//   companyName: z.string().min(1, "Full name is required"),
-//   //   registeredNumber: z.string().min(1, "First name is required"), // GENERATEED IN DATABASE
-//   govRegisteredNumber: z.string().nullable(),
-//   phone: z.string().min(1, "Phone is required"),
-//   establishedDate: z.coerce.date(),
-//   companyEmail: z.string().optional().nullable(),
-//   address: z.string().optional().nullable(),
-//   city: z.string().optional().nullable(),
-//   state: z.string().optional().nullable(),
-//   postalcode: z.string().optional().nullable(),
-//   country: z.string().optional().nullable(),
-//   webAddress: z.string().optional().nullable(),
-//   // webAddress: z.url().optional().nullable(),
-//   industrial: z.string().optional().nullable(),
-//   companyDescription: z.string().optional().nullable(),
-//   logoUrl: z.string().optional().nullable(),
-//   // stats: z.enum(["ACTIVE", "INACTIVE", "PENDING", "SUSPENDED"]),
-//   // subscriptionPlan: z.enum(["FREE", "BASIC", "PREMIUM"]),
-// });
+    // 3. UI Refresh: Revalidate the profile page route
+    // Replace '/profile' with the actual path where the profile data is displayed.
+    revalidatePath("/profile");
 
-// // Schema for profile deletion
-// // const DeleteFormSchema = z.object({
-// //   profileId: z.string().min(1, "User ID is required"),
-// // });
-
-// // Infer type from schema for type safety
-// type ValidatedData = z.infer<typeof EmployerCompanyProfileSchema>;
-// // type DeleteValidatedData = z.infer<typeof DeleteFormSchema>;
-
-// export const editProfile = async (state: any, formData: FormData) => {
-//   const session = await verifySession();
-//   // console.log(session, "check session on server actions");
-
-//   if (!session?.userId) {
-//     return {
-//       success: false,
-//       message: "Authentication failed. Please log in again.",
-//     };
-//   }
-
-//   // Check if the User exists and potentially has the correct role (optional but good practice)
-//   try {
-//     const user = await prisma.user.findUnique({
-//       where: { id: session?.userId },
-//       select: { role: true }, // Select role to enforce security if needed
-//     });
-
-//     if (!user /* || user.role !== "EMPLOYER" */) {
-//       return {
-//         success: false,
-//         message: `User not authorized or found.`,
-//       };
-//     }
-//   } catch (error) {
-//     console.error("Database error during user check:", error);
-//     return {
-//       success: false,
-//       message: "A server error occurred during user verification.",
-//     };
-//   }
-
-//   try {
-//     // Log raw form data for debugging
-//     // console.log(Object.fromEntries(formData), "raw formData");
-
-//     // Validate form data
-//     const validatedData = EmployerCompanyProfileSchema.parse({
-//       // userId: formData.get("id"),
-//       companyName: formData.get("companyName"),
-//       govRegisteredNumber: formData.get("govRegisteredNumber"),
-//       phone: formData.get("phone"),
-//       establishedDate: formData.get("establishedDate"),
-//       companyEmail: formData.get("companyEmail"),
-//       address: formData.get("address"),
-//       city: formData.get("city"),
-//       state: formData.get("state"),
-//       postalcode: formData.get("postalcode"),
-//       country: formData.get("country"),
-//       webAddress: formData.get("webAddress"),
-//       industrial: formData.get("industrial"),
-//       companyDescription: formData.get("companyDescription"),
-//       logoUrl: formData.get("logoUrl"),
-//       stats: formData.get("stats"),
-//       subscriptionPlan: formData.get("subscriptionPlan"),
-//     }) as ValidatedData;
-
-//     // console.log(validatedData, "validateData");
-
-//     // // Check if the User exists
-//     // const user = await prisma.user.findUnique({
-//     //   where: { id: session?.userId }, // later also check with role too.
-//     // });
-
-//     // if (!user) {
-//     //   return {
-//     //     success: false,
-//     //     message: `No User found with ID: ${session?.userId}`,
-//     //   };
-//     // }
-
-//     // console.log(user, "checked");
-//     // Common profile data for update or create
-//     const profileData = {
-//       companyName: validatedData.companyName,
-//       firstName: validatedData.firstName,
-//       lastName: validatedData.lastName,
-//       phone: validatedData.phone,
-//       gender: validatedData.gender,
-//       dateOfBirth: validatedData.dateOfBirth,
-//       address: validatedData.address,
-//       bio: validatedData.bio,
-//       education: validatedData.education,
-//     };
-
-//     // // Use upsert to handle both create and update in one operation
-//     // await prisma.jobSeekerProfile.upsert({
-//     //   where: { userId: validatedData.userId },
-//     //   update: profileData,
-//     //   create: {
-//     //     ...profileData,
-//     //     user: {
-//     //       connect: { id: validatedData.userId },
-//     //     },
-//     //   },
-//     // });
-
-//     // // Revalidate the profile page route
-//     // revalidatePath("/profile");
-//     // return { success: true, message: "Profile saved successfully" };
-//   } catch (error) {
-//     console.error("Error saving profile:", error);
-//     return {
-//       success: false,
-//       message: "Failed to save profile due to an unexpected error",
-//     };
-//   }
-// };
-
-// // // Delete a profile (placeholder for future implementation)
-// // export const deleteProfile = async (stae: any, formData: FormData) => {
-// //   const validatedData = DeleteFormSchema.parse({
-// //     // userId: formData.get("userId"),
-// //     profileId: formData.get("profileId"),
-// //   });
-
-// //   //   console.log(validatedData);
-
-// //   try {
-// //     await prisma.jobSeekerProfile.delete({
-// //       where: { id: validatedData?.profileId },
-// //     });
-
-// //     // 3. UI Refresh: Revalidate the profile page route
-// //     // Replace '/profile' with the actual path where the profile data is displayed.
-// //     revalidatePath("/profile");
-
-// //     return { success: true, message: "Profile deleted successfully" };
-// //   } catch (error) {
-// //     console.error("Error deleting profile:", error);
-// //     return { success: false, message: "Failed to delete profile" };
-// //   }
-// // };
+    return { success: true, message: "Profile deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting profile:", error);
+    return { success: false, message: "Failed to delete profile" };
+  }
+};

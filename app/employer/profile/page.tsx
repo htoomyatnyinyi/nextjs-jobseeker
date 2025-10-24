@@ -1,9 +1,8 @@
 import prisma from "@/lib/prisma";
 import { verifySession } from "@/lib/session";
-// import EditForm from "./EditForm";
-// import DeleteForm from "./DeleteForm";
 import Link from "next/link";
 import EditEmployerForm from "./EditEmployerForm";
+import DeleteEmployerForm from "./DeleteEmployerForm";
 
 const page = async () => {
   const session = await verifySession();
@@ -43,7 +42,7 @@ const page = async () => {
         <div className="flex flex-col border p-2 m-1 text-sky-400">
           <div className="flex justify-between">
             <h1 className="text-3xl p-2 m-1 uppercase">Profile Data</h1>
-            {/* <DeleteForm profile_id={user?.employerProfile?.id} /> */}
+            <DeleteEmployerForm profile_id={user?.employerProfile?.id} />
           </div>
           <div>
             <p>{user?.employerProfile?.id} employerProfile</p>
