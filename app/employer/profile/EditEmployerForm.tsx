@@ -8,7 +8,6 @@ const EditEmployerForm = () => {
     success: false,
     message: "blah",
   });
-  console.log(state, "state");
 
   const mockCompanyData = {
     // Required fields
