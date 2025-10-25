@@ -5,6 +5,9 @@ const page = async () => {
   const session = await verifySession();
   console.log(session, "session");
   const jobs = await prisma.jobPost.findMany();
+
+  console.log(jobs, "jobs at jobs path");
+
   return (
     <div>
       <h1>Job List</h1>
@@ -14,6 +17,21 @@ const page = async () => {
         expedita quia est sapiente aperiam culpa, ducimus tenetur nam ullam,
         sequi earum?
       </p>
+
+      {jobs?.map((job) => (
+        <div key={job.id} className="flex flex-col p-2 m-1 border">
+          <p>{job.title}</p>
+          <p>{job.description}</p>
+          {/* <p>{job.salaryMin}</p> */}
+          {/* <p>{job.salaryMax}</p> */}
+          <p>{job.location}</p>
+          <p>{job.address}</p>
+          <p>{job.employmentType}</p>
+          <p>{job.category}</p>
+          {/* <p>{job.applicationDeadLine}</p> */}
+          {/* <p>{job.postedAt}</p> */}
+        </div>
+      ))}
     </div>
   );
 };

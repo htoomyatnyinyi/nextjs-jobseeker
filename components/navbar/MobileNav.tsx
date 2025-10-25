@@ -27,6 +27,7 @@ const USER_LINKS = [
 
 const EMPLOYER_LINKS = [
   { name: "Employer Profile", path: "/employer/profile" },
+  { name: "Employer Jobs", path: "/employer/jobs" },
   { name: "Employer Dashboard", path: "/employer/dashboard" },
   { name: "jobs", path: "/jobs" },
 ];

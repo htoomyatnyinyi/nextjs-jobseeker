@@ -3,6 +3,7 @@ import { verifySession } from "@/lib/session";
 import EditForm from "./EditForm";
 import DeleteForm from "./DeleteForm";
 import Link from "next/link";
+import { DateFilter } from "@/lib/common/DateTime";
 
 const page = async () => {
   const session = await verifySession();
@@ -42,13 +43,15 @@ const page = async () => {
     },
   });
 
-  // 1. Get the date value directly (it will be a Date object or null)
-  const dateOfBirthPrisma = data?.jobSeekerProfile?.dateOfBirth;
+  // same as above using DateFilter component
+  const dateOnly = DateFilter({ date: data?.jobSeekerProfile?.dateOfBirth });
+  // // 1. Get the date value directly (it will be a Date object or null)
+  // const dateOfBirthPrisma = data?.jobSeekerProfile?.dateOfBirth;
 
-  // 2. Conditionally process the date only if it exists
-  const dateOnly = dateOfBirthPrisma
-    ? new Date(dateOfBirthPrisma).toISOString().split("T")[0] // If valid, format it
-    : ""; // If null, set it to an empty string
+  // // 2. Conditionally process the date only if it exists
+  // const dateOnly = dateOfBirthPrisma
+  //   ? new Date(dateOfBirthPrisma).toISOString().split("T")[0] // If valid, format it
+  //   : ""; // If null, set it to an empty string
 
   return (
     <div className="felx flex-col p-2 m-1 ">
