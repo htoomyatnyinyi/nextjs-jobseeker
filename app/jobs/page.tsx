@@ -3,8 +3,13 @@ import { verifySession } from "@/lib/session";
 
 const page = async () => {
   const session = await verifySession();
-  console.log(session, "session");
-  const jobs = await prisma.jobPost.findMany();
+  // console.log(session, "session");
+  const jobs = await prisma.jobPost.findMany({
+    include: {
+      requirements: true,
+      responsibilities: true,
+    },
+  });
 
   console.log(jobs, "jobs at jobs path");
 
@@ -28,6 +33,16 @@ const page = async () => {
           <p>{job.address}</p>
           <p>{job.employmentType}</p>
           <p>{job.category}</p>
+          <div className="p-2 m-1">
+            {job?.requirements.map((req) => (
+              <div key={req.id}>{req.requirement}</div>
+            ))}
+          </div>
+          <div className="p-2 m-1 ">
+            {job?.responsibilities.map((res) => (
+              <div key={res.id}>{res.responsibility}</div>
+            ))}
+          </div>
           {/* <p>{job.applicationDeadLine}</p> */}
           {/* <p>{job.postedAt}</p> */}
         </div>

@@ -12,11 +12,13 @@ const JobPostForm = () => {
     salaryMin: "120000",
     salaryMax: "160000",
     location: "Remote (EST Timezone Preferred)",
-    address: "",
+    address: "No.209, Main Road",
     employmentType: "FULL_TIME",
     category: "Software Engineering",
     imageUrl: "https://example.com/images/dev_banner.jpg",
     applicationDeadLine: "2025-12-31", // Note: The action uses 'z.coerce.date()', ensure format is acceptable
+    requirements: ["req1", "req2", "req3", "req4", "req5"],
+    responsibilites: ["resp1", "resp2", "resp3", "resp4", "resp5"],
   };
 
   // 1. Initialize useActionState
@@ -60,6 +62,22 @@ const JobPostForm = () => {
         {/* --- Row 1: Title and Category --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Job Title */}
+
+          <h2>User IDs</h2>
+
+          {/* Example 2: Array-like notation (though not strictly required for FormData) */}
+          <input
+            type="number"
+            name="userIds[]"
+            placeholder="User ID 1"
+            defaultValue="101"
+          />
+          <input
+            type="number"
+            name="userIds[]"
+            placeholder="User ID 2"
+            defaultValue="102"
+          />
           <div>
             <label htmlFor="title" className={labelClass}>
               Job Title
@@ -71,7 +89,7 @@ const JobPostForm = () => {
               required
               placeholder="e.g., Senior Full Stack Developer"
               className={inputClass}
-              // defaultValue={mockFrontendJob.title}
+              defaultValue={mockFrontendJob.title}
             />
             {/* {state.errors?.title && (
               <p className={errorClass}>{state.errors.title}</p>
@@ -90,7 +108,7 @@ const JobPostForm = () => {
               required
               placeholder="e.g., Software Engineering"
               className={inputClass}
-              // defaultValue={mockFrontendJob.category}
+              defaultValue={mockFrontendJob.category}
             />
             {/* {state.errors?.category && (
               <p className={errorClass}>{state.errors.category}</p>
@@ -113,7 +131,7 @@ const JobPostForm = () => {
               required
               placeholder="e.g., 80000"
               className={inputClass}
-              // defaultValue={mockFrontendJob.salaryMin}
+              defaultValue={mockFrontendJob.salaryMin}
             />
             {/* {state.errors?.salaryMin && (
               <p className={errorClass}>{state.errors.salaryMin}</p>
@@ -132,7 +150,7 @@ const JobPostForm = () => {
               min="0"
               placeholder="e.g., 120000"
               className={inputClass}
-              // defaultValue={mockFrontendJob.salaryMax}
+              defaultValue={mockFrontendJob.salaryMax}
             />
             {/* {state.errors?.salaryMax && (
               <p className={errorClass}>{state.errors.salaryMax}</p>
@@ -149,7 +167,7 @@ const JobPostForm = () => {
               name="employmentType"
               required
               className={inputClass}
-              // defaultValue={mockFrontendJob.employmentType}
+              defaultValue={mockFrontendJob.employmentType}
             >
               <option value="FULL_TIME">Full-Time</option>
               <option value="PART_TIME">Part-Time</option>
@@ -177,7 +195,7 @@ const JobPostForm = () => {
               required
               placeholder="e.g., Remote or New York, NY"
               className={inputClass}
-              // defaultValue={mockFrontendJob.location}
+              defaultValue={mockFrontendJob.location}
             />
             {/* {state.errors?.location && (
               <p className={errorClass}>{state.errors.location}</p>
@@ -195,7 +213,7 @@ const JobPostForm = () => {
               type="date"
               required
               className={inputClass}
-              // defaultValue={mockFrontendJob.applicationDeadLine}
+              defaultValue={mockFrontendJob.applicationDeadLine}
             />
             {/* {state.errors?.applicationDeadLine && (
               <p className={errorClass}>{state.errors.applicationDeadLine}</p>
@@ -214,7 +232,7 @@ const JobPostForm = () => {
             type="text"
             placeholder="Full Street Address"
             className={inputClass}
-            // defaultValue={mockFrontendJob.address}
+            defaultValue={mockFrontendJob.address}
           />
           {/* {state.errors?.address && (
             <p className={errorClass}>{state.errors.address}</p>
@@ -233,7 +251,7 @@ const JobPostForm = () => {
             required
             placeholder="Provide a detailed description of the role and its context..."
             className={inputClass}
-            // defaultValue={mockFrontendJob.description}
+            defaultValue={mockFrontendJob.description}
           ></textarea>
           {/* {state.errors?.description && (
             <p className={errorClass}>{state.errors.description}</p>
@@ -251,7 +269,7 @@ const JobPostForm = () => {
             type="url"
             placeholder="e.g., https://yourcompany.com/job-banner.png"
             className={inputClass}
-            // defaultValue={mockFrontendJob.imageUrl}
+            defaultValue={mockFrontendJob.imageUrl}
           />
           {/* {state.errors?.imageUrl && (
             <p className={errorClass}>{state.errors.imageUrl}</p>

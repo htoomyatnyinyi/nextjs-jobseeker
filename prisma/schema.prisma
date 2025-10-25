@@ -73,9 +73,9 @@ model JobSeekerProfile {
   // --- many relations ---
   experiences  JobSeekerExperience[]
   resumes   Resume[]
-  jobApplication  JobApplication[]
-  jobSeekerSkill  JobSeekerSkill[]
-  savedJob  SavedJob[]
+  // jobApplication  JobApplication[]
+  // jobSeekerSkill  JobSeekerSkill[]
+  // savedJob  SavedJob[]
 }
 
 model JobSeekerExperience {
@@ -147,9 +147,9 @@ model JobPost {
   // ---- one to may ---
   responsibilities    JobResponsibility[]
   requirements        JobRequirement[]
-  applications        JobApplication[]
-  savedJobs           SavedJob[]
-  skills              JobPostSkill[]
+  // applications        JobApplication[]
+  // savedJobs           SavedJob[]
+  // skills              JobPostSkill[]
 
   @@index([title])
   @@index([location])
@@ -166,7 +166,7 @@ model JobResponsibility {
   jobPost JobPost @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
 }
 model JobRequirement {
-  id           String      @id @default(cuid())
+  id            String    @id @default(cuid())
   requirement   String   
   displayOrder  Int      @default(0)
 
@@ -175,14 +175,6 @@ model JobRequirement {
   jobPost      JobPost  @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
 }
 
-model Product {
-  id      String @id @default(cuid())
-  title   String?
-  price   Int?
-  description   String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
 
 model Resume {
   id         String   @id @default(cuid())
@@ -200,58 +192,58 @@ model Resume {
   // jobApplications JobApplication[]
 }
 
-model JobApplication {
-  id         String         @id @default(cuid())
-  applicationStatus         ApplicationStatus @default(PENDING)
-  appliedAt  DateTime       @default(now()) 
-  updatedAt  DateTime       @updatedAt 
+// model JobApplication {
+//   id         String         @id @default(cuid())
+//   applicationStatus         ApplicationStatus @default(PENDING)
+//   appliedAt  DateTime       @default(now()) 
+//   updatedAt  DateTime       @updatedAt 
 
-  // --- relations ---
-  jobSeekerProfileId     String          
-  jobSeekerProfile       JobSeekerProfile           @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
-  jobPostId  String            
-  jobPost    JobPost        @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
-  // resumeId   String          
-  // resume     Resume         @relation(fields: [resumeId], references: [id], onDelete: SetNull)
-}
+//   // --- relations ---
+//   jobSeekerProfileId     String          
+//   jobSeekerProfile       JobSeekerProfile           @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+//   jobPostId  String            
+//   jobPost    JobPost        @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+//   // resumeId   String          
+//   // resume     Resume         @relation(fields: [resumeId], references: [id], onDelete: SetNull)
+// }
 
-model SavedJob {
-  id        String      @id @default(cuid())
-  savedAt   DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+// model SavedJob {
+//   id        String      @id @default(cuid())
+//   savedAt   DateTime    @default(now())
+//   updatedAt DateTime    @updatedAt
 
-  // --- relations ---
-  jobSeekerProfileId    String     
-  jobSeekerProfile      JobSeekerProfile        @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
-  jobPostId String      
-  jobPost   JobPost     @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+//   // --- relations ---
+//   jobSeekerProfileId    String     
+//   jobSeekerProfile      JobSeekerProfile        @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+//   jobPostId String      
+//   jobPost   JobPost     @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
 
-  // @@unique([userId, jobPostId])
-}
+//   // @@unique([userId, jobPostId])
+// }
 
 
-model JobSeekerSkill {
-  id            String          @id @default(cuid())
-  skillName     String     
-  proficiency   Proficiency     @default(INTERMEDIATE)
+// model JobSeekerSkill {
+//   id            String          @id @default(cuid())
+//   skillName     String     
+//   proficiency   Proficiency     @default(INTERMEDIATE)
  
-  //  --- relations ---
-  jobSeekerProfileId        String         
-  jobSeekerProfile          JobSeekerProfile            @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
-  @@index([skillName])
-}
+//   //  --- relations ---
+//   jobSeekerProfileId        String         
+//   jobSeekerProfile          JobSeekerProfile            @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+//   @@index([skillName])
+// }
 
-model JobPostSkill {
-  id                 String       @id @default(cuid())
-  skillName          String     
-  requiredProficiency Proficiency @default(INTERMEDIATE)
+// model JobPostSkill {
+//   id                 String       @id @default(cuid())
+//   skillName          String     
+//   requiredProficiency Proficiency @default(INTERMEDIATE)
 
-  // --- relations ---
-  jobPostId          String        
-  jobPost            JobPost      @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+//   // --- relations ---
+//   jobPostId          String        
+//   jobPost            JobPost      @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
 
-  @@index([skillName])
-}
+//   @@index([skillName])
+// }
 
 // --- ENUMS: For providing controlled vocabulary ---
 enum Role {

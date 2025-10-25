@@ -2,7 +2,8 @@ import { verifySession } from "@/lib/session";
 import JobPostForm from "./JobPostForm";
 import prisma from "@/lib/prisma";
 import { DateFilter } from "@/lib/common/DateTime";
-
+import ArrayForm from "./arrayForm";
+import ResponsibilitiesRequirementsForm from "./ResponsibilitiesRequirementsForm";
 const page = async () => {
   const session = await verifySession();
 
@@ -21,7 +22,7 @@ const page = async () => {
   //   },
   // });
 
-  console.log(employerJobs, "employerJobs");
+  // console.log(employerJobs, "employerJobs");
 
   return (
     <div>
@@ -42,6 +43,8 @@ const page = async () => {
           <p>{DateFilter({ date: job.applicationDeadLine })}</p>
         </div>
       ))}
+      <ResponsibilitiesRequirementsForm />
+      <ArrayForm />
       <JobPostForm />
     </div>
   );
