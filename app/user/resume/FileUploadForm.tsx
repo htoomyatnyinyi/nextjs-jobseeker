@@ -1,7 +1,44 @@
-"use client"; // This directive is necessary for client-side components in Next.js
+"use client";
 
 import React, { useActionState } from "react";
 import { uploadFileAction } from "./action";
+
+const FileUploadForm = () => {
+  const [uploadStatus, formAction, isUploading] = useActionState(
+    uploadFileAction,
+    {
+      success: false,
+      message: "",
+    }
+  );
+
+  return (
+    <form action={formAction}>
+      <input
+        type="file"
+        name="file"
+        required
+        placeholder="Resume File Upload Here!"
+        className="p-2 m-1 border border-sky-500 "
+      />
+      <button
+        type="submit"
+        disabled={isUploading}
+        className="p-2 m-1 border border-sky-500 "
+      >
+        {isUploading ? "Uploading..." : "Upload File"}
+      </button>
+
+      {uploadStatus && (
+        <p className={uploadStatus.success ? "text-green-500" : "text-red-500"}>
+          {uploadStatus.message}
+        </p>
+      )}
+    </form>
+  );
+};
+
+export default FileUploadForm;
 
 // // This is your server-side or API action to handle the file upload
 // // In a real application, this would likely be a separate file or API route
@@ -31,28 +68,3 @@ import { uploadFileAction } from "./action";
 //     return { success: false, message: "Error uploading file." };
 //   }
 // }
-
-const FileUploadForm = () => {
-  // useActionState takes your action function and an initial state
-  const [uploadStatus, formAction, isUploading] = useActionState(
-    uploadFileAction,
-    null
-  );
-
-  return (
-    <form action={formAction}>
-      <input type="file" name="file" required />
-      <button type="submit" disabled={isUploading}>
-        {isUploading ? "Uploading..." : "Upload File"}
-      </button>
-
-      {uploadStatus && (
-        <p className={uploadStatus.success ? "text-green-500" : "text-red-500"}>
-          {uploadStatus.message}
-        </p>
-      )}
-    </form>
-  );
-};
-
-export default FileUploadForm;

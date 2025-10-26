@@ -1,16 +1,16 @@
-"use client";
+// "use client";
 
-import { uploadFile } from "./actions";
+// import { uploadFile } from "./actions";
 
-const ResumeUploadForm = () => {
-  return (
-    <div>
-      <form action={uploadFile}>
-        <input type="file" name="file" />
-        <button type="submit">Upload</button>
-      </form>
-    </div>
-  );
-};
+// const ResumeUploadForm = () => {
+//   return (
+//     <div>
+//       <form action={uploadFile}>
+//         <input type="file" name="file" />
+//         <button type="submit">Upload</button>
+//       </form>
+//     </div>
+//   );
+// };
 
-export default ResumeUploadForm;
+// export default ResumeUploadForm;
