@@ -49,6 +49,7 @@ export const signin = async (state: any, formData: any) => {
   // 4. Create session
   try {
     await createSession(user.id);
+    // await createSession({ userId: user.id , role: user.role}); // later disscuss
     return { success: true };
   } catch (error) {
     console.error("Error creating session:", error);

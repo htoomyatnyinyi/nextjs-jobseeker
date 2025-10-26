@@ -229,6 +229,8 @@ export const deleteEmployerProfile = async (stae: any, formData: FormData) => {
     profileId: formData.get("profileId"),
   });
 
+  console.log(validatedData, "delete validate data  profileId");
+
   try {
     await prisma.employerProfile.delete({
       where: { id: validatedData?.profileId },
@@ -236,7 +238,7 @@ export const deleteEmployerProfile = async (stae: any, formData: FormData) => {
 
     // 3. UI Refresh: Revalidate the profile page route
     // Replace '/profile' with the actual path where the profile data is displayed.
-    revalidatePath("/profile");
+    revalidatePath("/employer/profile");
 
     return { success: true, message: "Profile deleted successfully" };
   } catch (error) {

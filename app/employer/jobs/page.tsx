@@ -1,9 +1,24 @@
 import { verifySession } from "@/lib/session";
-import JobPostForm from "./JobPostForm";
+// import JobPostForm from "./JobPostForm";
 import prisma from "@/lib/prisma";
 import { DateFilter } from "@/lib/common/DateTime";
-import ArrayForm from "./arrayForm";
 import ResponsibilitiesRequirementsForm from "./ResponsibilitiesRequirementsForm";
+import JobForm from "./JobForm";
+
+// const mockFrontendJob = {
+//   title: "Senior Frontend Developer",
+//   description: "Lead the frontend development of our core SaaS product...",
+//   salaryMin: "120000",
+//   salaryMax: "160000",
+//   location: "Remote (EST Timezone Preferred)",
+//   address: "No.209, Main Road",
+//   employmentType: "FULL_TIME",
+//   category: "Software Engineering",
+//   imageUrl: "https://example.com/images/dev_banner.jpg",
+//   applicationDeadLine: "2025-12-31", // Note: The action uses 'z.coerce.date()', ensure format is acceptable
+//   requirements: ["req1", "req2", "req3", "req4", "req5"],
+//   responsibilites: ["resp1", "resp2", "resp3", "resp4", "resp5"],
+// };
 const page = async () => {
   const session = await verifySession();
 
@@ -43,9 +58,10 @@ const page = async () => {
           <p>{DateFilter({ date: job.applicationDeadLine })}</p>
         </div>
       ))}
-      <ResponsibilitiesRequirementsForm />
-      <ArrayForm />
-      <JobPostForm />
+      <JobForm />
+      {/* <ResponsibilitiesRequirementsForm /> */}
+
+      {/* <JobPostForm /> */}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import Stats from "@/components/general/Stats";
 import Image from "next/image";
 import Link from "next/link";
+import FileUpload from "./user/resume/page";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           priority
         />
         <Stats />
+        <FileUpload />
 
         <Link href="/profile">Profile</Link>
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">

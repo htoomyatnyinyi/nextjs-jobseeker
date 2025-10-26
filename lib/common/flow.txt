@@ -1,0 +1,41 @@
+[Frontend Form]
+  User inputs:
+    Responsibilities: [{ "Write clean code", 1 }, { "Collaborate", 2 }]
+    Requirements: [{ "5+ years experience", 1 }, { "JavaScript", 2 }]
+  ↓ (onSubmit)
+  FormData: {
+    "responsibilities": JSON.stringify([...]),
+    "requirements": JSON.stringify([...]),
+    "employerId": "mock-employer-id"
+  }
+  ↓ (HTTP POST via useActionState)
+[Server Action]
+  Parse FormData:
+    responsibilities: JSON.parse(formData.get("responsibilities"))
+    requirements: JSON.parse(formData.get("requirements"))
+  Validate with Zod
+  ↓
+  Prisma.create({
+    data: {
+      title: "Default Title",
+      description: "Default Description",
+      salaryMin: 0,
+      employerId: "mock-employer-id",
+      responsibilities: { create: [...] },
+      requirements: { create: [...] }
+    }
+  })
+  ↓
+[Database]
+  JobPost: { id: "cuid123", title: "Default Title", ... }
+  JobResponsibility: [
+    { id: "cuid456", responsibility: "Write clean code", displayOrder: 1, jobPostId: "cuid123" },
+    ...
+  ]
+  JobRequirement: [
+    { id: "cuid789", requirement: "5+ years experience", displayOrder: 1, jobPostId: "cuid123" },
+    ...
+  ]
+  ↓
+[Frontend]
+  Display: "Job post created successfully"
