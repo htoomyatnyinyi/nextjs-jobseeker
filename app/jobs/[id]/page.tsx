@@ -10,13 +10,14 @@ type JobDetailsPageProps = {
 };
 
 const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
-  const jobId = params.id;
+  const { id } = await params;
+  // const { jobId } = params.id;
 
   const [job, jobs] = await Promise.all([
     // Fetch the single job details
     prisma.jobPost.findUnique({
       where: {
-        id: jobId,
+        id,
       },
       include: {
         requirements: true,

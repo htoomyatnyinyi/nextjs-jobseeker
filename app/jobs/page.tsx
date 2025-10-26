@@ -10,7 +10,7 @@ const page = async () => {
     },
   });
 
-  console.log(jobs, "jobs");
+  // console.log(jobs, "jobs");
 
   return (
     <div className="p-6 h-screen">

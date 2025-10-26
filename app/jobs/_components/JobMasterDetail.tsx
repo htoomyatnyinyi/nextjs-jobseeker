@@ -1,17 +1,23 @@
-// components/JobsMasterDetail.tsx (A new file)
 "use client";
+
 import { useState } from "react";
-// import JobDetailCard from "./JobDetailCard"; // Import the detail component
 import JobDetailCard from "./JobDetailCard";
+
 // Define the Job structure (match your Prisma include)
 type Job = {
   id: string;
   title: string;
   description: string;
+  salaryMin: number; // Changed to number for correct handling
+  salaryMax: number | null; // Changed to number
   location: string;
-  employmentType: string;
-  requirements: { id: string; requirement: string }[];
-  responsibilities: { id: string; responsibility: string }[];
+  address: string;
+  employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
+  category: string;
+  imageUrl: string;
+  applicationDeadLine: string; // Keep as string for date input value
+  responsibilities: { responsibility: string; displayOrder: number }[];
+  requirements: { requirement: string; displayOrder: number }[];
 };
 
 type JobsMasterDetailProps = {

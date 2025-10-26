@@ -1,4 +1,3 @@
-// components/JobDetailCard.tsx  (A new file in your project)
 "use client";
 
 // Define the Job structure (match your Prisma include)
@@ -6,11 +5,16 @@ type Job = {
   id: string;
   title: string;
   description: string;
+  salaryMin: number; // Changed to number for correct handling
+  salaryMax: number | null; // Changed to number
   location: string;
-  employmentType: string;
-  requirements: { id: string; requirement: string }[];
-  responsibilities: { id: string; responsibility: string }[];
-  // Add other fields you need to display
+  address: string;
+  employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
+  category: string;
+  imageUrl: string;
+  applicationDeadLine: string; // Keep as string for date input value
+  responsibilities: { responsibility: string; displayOrder: number }[];
+  requirements: { requirement: string; displayOrder: number }[];
 };
 
 type JobDetailCardProps = {
@@ -19,7 +23,7 @@ type JobDetailCardProps = {
 
 const JobDetailCard = ({ job }: JobDetailCardProps) => {
   return (
-    <div className="p-6 h-full overflow-y-auto backdrop-blur-3xl shadow-2xl shadow-lg rounded-lg">
+    <div className="p-6 h-full overflow-y-auto backdrop-blur-3xl shadow-2xl  rounded-lg">
       <h2 className="text-3xl font-bold mb-2 text-blue-800">{job.title}</h2>
       <p className="text-md text-gray-500 mb-6">
         {job.location} | {job.employmentType}
@@ -38,7 +42,7 @@ const JobDetailCard = ({ job }: JobDetailCardProps) => {
         </h3>
         <ul className="list-disc list-inside space-y-1">
           {job.responsibilities.map((res) => (
-            <li key={res.id}>{res.responsibility}</li>
+            <li key={res.displayOrder}>{res.responsibility}</li>
           ))}
         </ul>
       </div>
@@ -49,7 +53,7 @@ const JobDetailCard = ({ job }: JobDetailCardProps) => {
         </h3>
         <ul className="list-disc list-inside space-y-1">
           {job.requirements.map((req) => (
-            <li key={req.id}>{req.requirement}</li>
+            <li key={req.displayOrder}>{req.requirement}</li>
           ))}
         </ul>
       </div>
