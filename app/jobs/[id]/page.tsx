@@ -18,6 +18,7 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
     prisma.jobPost.findUnique({
       where: {
         id,
+        // id: jobId,
       },
       include: {
         requirements: true,
@@ -52,49 +53,49 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
   // }
 
   return (
-    <div className="max-w-4xl mx-auto p-6  shadow-lg rounded-lg">
-      <h1 className="text-3xl font-bold mb-4">{job.title}</h1>
-      <p className="text-gray-600 mb-6">
-        {job.location} | {job.employmentType}
-      </p>
-
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Description</h2>
-        <p className="text-gray-700">{job.description}</p>
-      </div>
-
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Responsibilities</h2>
-        <ul className="list-disc list-inside space-y-1">
-          {job.responsibilities.map((res) => (
-            <li key={res.id}>{res.responsibility}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Requirements</h2>
-        <ul className="list-disc list-inside space-y-1">
-          {job.requirements.map((req) => (
-            <li key={req.id}>{req.requirement}</li>
-          ))}
-        </ul>
-      </div>
-
+    <div className="flex  ">
       {/* Add more job details here */}
-      <div>
-        <h1>Another JobList</h1>
-        <div className="flex flex-row gap-8 p-2 m-1 mx-auto  text-sky-400 ">
-          {jobs.map((job) => (
-            <Link
-              href={`/jobs/${job.id}`}
-              key={job.id}
-              className="border p-2 m-1"
-            >
-              <p>{job.title}</p>
-              <p>{job.description}</p>
-            </Link>
-          ))}
+
+      <div className="flex flex-col  p-2 m-1 mx-auto  text-sky-400 ">
+        {jobs.map((job) => (
+          <Link
+            href={`/jobs/${job.id}`}
+            key={job.id}
+            className="border p-2 m-1"
+          >
+            <p>{job.title}</p>
+            <p>{job.description}</p>
+          </Link>
+        ))}
+      </div>
+
+      <div className="max-w-4xl mx-auto p-6  shadow-lg rounded-lg">
+        <h1 className="text-3xl font-bold mb-4">{job.title}</h1>
+        <p className="text-gray-600 mb-6">
+          {job.location} | {job.employmentType}
+        </p>
+
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold mb-2">Description</h2>
+          <p className="text-gray-700">{job.description}</p>
+        </div>
+
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold mb-2">Responsibilities</h2>
+          <ul className="list-disc list-inside space-y-1">
+            {job.responsibilities.map((res) => (
+              <li key={res.id}>{res.responsibility}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold mb-2">Requirements</h2>
+          <ul className="list-disc list-inside space-y-1">
+            {job.requirements.map((req) => (
+              <li key={req.id}>{req.requirement}</li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

@@ -229,11 +229,27 @@ export const deleteEmployerProfile = async (stae: any, formData: FormData) => {
     profileId: formData.get("profileId"),
   });
 
-  console.log(validatedData, "delete validate data  profileId");
+  // console.log(validatedData, "delete validate data  profileId");
 
   try {
+    // const a = await prisma.employerProfile.delete({
+    //   where: { id: validatedData?.profileId },
+    // });
+    // console.log(a, "check delete employer");
+
+    // 1. Delete all dependent "child" records first
+    // (You must do this for EVERY table that references EmployerProfile)
+    await prisma.jobPost.deleteMany({
+      where: { employerId: validatedData.profileId },
+    });
+
+    // await prisma.application.deleteMany({
+    //   where: { employerProfileId: profileId },
+    // });
+
+    // 2. Now you can safely delete the "parent" profile
     await prisma.employerProfile.delete({
-      where: { id: validatedData?.profileId },
+      where: { id: validatedData.profileId },
     });
 
     // 3. UI Refresh: Revalidate the profile page route

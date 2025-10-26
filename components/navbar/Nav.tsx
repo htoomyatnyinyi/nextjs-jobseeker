@@ -24,10 +24,10 @@ const Nav = async () => {
             <h1>jobDiary Inc</h1>
           </Link>
           <div className="hidden xl:flex xl:items-center">
-            <Links role={safeRole} />
+            <Links role={safeRole} userId={session?.userId} />
           </div>
           <div className="xl:hidden">
-            <MobileNav role={safeRole} />
+            <MobileNav role={safeRole} userId={session?.userId} />
           </div>
         </div>
       </div>

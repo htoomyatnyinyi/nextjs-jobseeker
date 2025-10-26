@@ -7,7 +7,7 @@ const page = () => {
     <div>
       <SignInForm />
       <Link href="/reset-password"> Reset Password</Link>
-      <Link href="/verify-email"> Re-send Email varification</Link>
+      <Link href="/verifyemail"> Re-send Email varification</Link>
     </div>
   );
 };

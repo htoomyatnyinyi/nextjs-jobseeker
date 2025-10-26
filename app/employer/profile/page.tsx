@@ -3,6 +3,7 @@ import { verifySession } from "@/lib/session";
 import Link from "next/link";
 import EditEmployerForm from "./EditEmployerForm";
 import DeleteEmployerForm from "./DeleteEmployerForm";
+// import SignOutForm from "@/app/(auth)/signout/form";
 
 const page = async () => {
   const session = await verifySession();
@@ -36,6 +37,7 @@ const page = async () => {
       <p>{user?.role}</p>
       <p>{user?.verified}</p>
       <div></div>
+      {/* <SignOutForm userId={session?.userId} /> */}
 
       <EditEmployerForm />
       {user?.employerProfile?.id && (

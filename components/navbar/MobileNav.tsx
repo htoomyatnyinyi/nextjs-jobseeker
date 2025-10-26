@@ -11,6 +11,7 @@ import {
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "../theme/ModeToggle";
+import SignOutForm from "@/app/(auth)/signout/form";
 
 // --- Link Definitions (Copied from the previous fix for consistency) ---
 const COMMON_LINKS = [
@@ -34,7 +35,13 @@ const EMPLOYER_LINKS = [
 // ------------------------------------------------------------------------
 
 // Added the 'role' prop
-const MobileNav = ({ role }: { role?: "USER" | "EMPLOYER" | null }) => {
+const MobileNav = ({
+  role,
+  userId,
+}: {
+  role?: "USER" | "EMPLOYER" | null;
+  userId: string | undefined;
+}) => {
   const pathname = usePathname();
 
   // 1. Determine the set of links based on the role
@@ -95,6 +102,7 @@ const MobileNav = ({ role }: { role?: "USER" | "EMPLOYER" | null }) => {
               </div>
             ))}
           </nav>
+          <SignOutForm userId={userId} />
 
           {/* Optional: You can place the ModeToggle here if you prefer it inside the menu */}
           {/* <div className="mt-auto pt-4 border-t">

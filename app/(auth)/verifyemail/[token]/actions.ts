@@ -41,7 +41,8 @@ export async function verifyEmail(token: string) {
 
 export async function resendVerificationEmail(_: any, formData: FormData) {
   const email = formData.get("email")?.toString();
-  if (!email || !z.string().email().safeParse(email).success) {
+
+  if (!email || !z.email().safeParse(email).success) {
     return { errors: { email: "Invalid email address" } };
   }
 
@@ -65,7 +66,7 @@ export async function resendVerificationEmail(_: any, formData: FormData) {
       },
     });
 
-    const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email/${token}`;
+    const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verifyemail/${token}`;
     await sendVerificationEmail(email, verifyUrl);
     return { success: true };
   } catch (error) {
