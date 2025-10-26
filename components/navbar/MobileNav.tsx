@@ -23,6 +23,7 @@ const COMMON_LINKS = [
 const USER_LINKS = [
   { name: "User Profile", path: "/user/profile" },
   { name: "User Dashboard", path: "/user/dashboard" },
+  { name: "User Resume", path: "/user/resume" },
   { name: "jobs", path: "/jobs" },
 ];
 
