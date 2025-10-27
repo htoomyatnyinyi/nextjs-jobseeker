@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
 import { JobLists } from "../_components/JobLists";
 import Link from "next/link";
+import ApplicationForm from "./ApplicationForm";
+import SaveForm from "./SaveForm";
 
 // Define the props for the dynamic page
 type JobDetailsPageProps = {
@@ -13,7 +15,7 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
   const { id } = await params;
   // const { jobId } = params.id;
 
-  const [job, jobs] = await Promise.all([
+  const [job, jobs, resume] = await Promise.all([
     // Fetch the single job details
     prisma.jobPost.findUnique({
       where: {
@@ -32,26 +34,20 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
         responsibilities: true,
       },
     }),
+
+    // update version
+    prisma.resume.findMany(),
+
+    // prisma.jobApplication.findUnique({
+    //   where: { jobPostId: id },
+    // }),
   ]);
+
   if (!job) {
     return <div>Job not found</div>;
   }
 
-  // // Fetch the single job details
-  // const job = await prisma.jobPost.findUnique({
-  //   where: {
-  //     id: jobId,
-  //   },
-  //   include: {
-  //     requirements: true,
-  //     responsibilities: true,
-  //   },
-  // });
-
-  // if (!job) {
-  //   return <div className="text-center p-8">Job not found.</div>;
-  // }
-
+  // console.log(resume, "check for jobApplication");
   return (
     <div className="flex  ">
       {/* Add more job details here */}
@@ -74,7 +70,10 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
         <p className="text-gray-600 mb-6">
           {job.location} | {job.employmentType}
         </p>
-
+        <div className="flex">
+          <ApplicationForm />
+          <SaveForm jobPostId={id} />
+        </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Description</h2>
           <p className="text-gray-700">{job.description}</p>
