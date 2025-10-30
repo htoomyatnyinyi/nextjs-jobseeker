@@ -38,18 +38,21 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
     // update version
     prisma.resume.findMany(),
 
+    // prisma.resume.findFirst({
+    //   where: { jobSeekerProfile: { userId: id } },
+    // }),
+
     // prisma.jobApplication.findUnique({
     //   where: { jobPostId: id },
     // }),
 
     // to validate the job,
-    // prisma.savedJob.findMany(),
     prisma.savedJob.findMany({
       where: { jobPostId: id },
     }),
   ]);
 
-  console.log(saved, " savejob list");
+  console.log(resume, " savejob list");
 
   if (!job) {
     return <div>Job not found</div>;
@@ -62,18 +65,12 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
 
       <div className="flex flex-col  p-2 m-1 mx-auto  text-sky-400 ">
         {saved?.map((save) => (
-          <div>
-            {save.jobPostId === job.id ? (
-              <div className=" text-green-500">
-                Hello {save.jobPostId} and {job.id}
-              </div>
-            ) : (
-              <div className="bg-yellow-500">
-                {save.jobPostId} and {job.id} world
-              </div>
-            )}
+          <div key={save.id}>
+            {save.jobPostId === job.id ? "Saved Job" : "Not Saved Job"}
           </div>
         ))}
+        {/* Show list of all jobs */}
+
         {jobs.map((job) => (
           <Link
             href={`/jobs/${job.id}`}
@@ -104,7 +101,19 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
         <div className="flex">
           <ApplicationForm />
           {/* {saved?.id === jobs.map((job) => job.id)} */}
-          <SaveForm jobPostId={id} />
+
+          <SaveForm jobPostId={id} savedJobsList={saved} />
+          {/* {saved.map((s) => (
+            <div>{!s?.id ? "H" : "I"}</div>
+          ))} */}
+          <div>{saved.length} saved jobs</div>
+          <div>
+            {saved.map((s) => (
+              <div key={s.id}>
+                {s.jobPostId === job.id ? "Saved Job" : "Not Saved"}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Description</h2>

@@ -20,12 +20,16 @@ export const savedJob = async (state: any, formData: FormData) => {
   try {
     const JobSeekerProfile = await prisma.jobSeekerProfile.findUnique({
       where: { userId: session?.userId },
+      select: {
+        id: true,
+      }, //  to return the profile id only that why i return wit selected profile id  is true
     });
     console.log(JobSeekerProfile, "JobSeekerProfileId a");
 
     const existingSavedJob = await prisma.savedJob.findFirst({
       where: {
         jobPostId: validatedData.jobPostId,
+        jobSeekerProfileId: JobSeekerProfile?.id,
       },
       // where: {
       //   jobSeekerProfileId: JobSeekerProfile?.id || "",

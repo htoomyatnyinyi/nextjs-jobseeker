@@ -156,7 +156,7 @@ model JobPost {
   // skills              JobPostSkill[]
 
   // -- one to one
-  savedJob   SavedJob?
+  savedJobs   SavedJob[]
   // savedJobs   SavedJob[]
 
   @@index([title])
@@ -193,7 +193,7 @@ model SavedJob {
   jobSeekerProfileId    String //      
   jobSeekerProfile      JobSeekerProfile        @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
   
-  jobPostId             String      @unique    
+  jobPostId             String          
   jobPost               JobPost     @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
 
   // @@unique([userId, jobPostId])
