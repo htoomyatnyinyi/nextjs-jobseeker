@@ -76,9 +76,9 @@ model JobSeekerProfile {
   resumes   Resume[]
   // jobApplication  JobApplication[]// comment first
   // jobSeekerSkill  JobSeekerSkill[]
-  // savedJob  SavedJob[]
   // -- one to one ---
-  saveJob   SavedJob?
+  // saveJob   SavedJob?
+  savedJobs  SavedJob[] // i think only postId is need to set unique and userId is one to many that why i use arrary
 }
 
 model JobSeekerExperience {
@@ -157,11 +157,13 @@ model JobPost {
 
   // -- one to one
   savedJob   SavedJob?
+  // savedJobs   SavedJob[]
 
   @@index([title])
   @@index([location])
   @@index([category])
 }
+
 model JobResponsibility {
   id      String      @id @default(cuid())
   responsibility  String
@@ -179,6 +181,22 @@ model JobRequirement {
   // ---- relations ---- 
   jobPostId    String     
   jobPost      JobPost  @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+}
+
+model SavedJob {
+  id        String      @id @default(cuid())
+  savedAt   DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  // --- relations ---
+ // i think only postId is need to set unique and userId is one to many that why i use arrary
+  jobSeekerProfileId    String //      
+  jobSeekerProfile      JobSeekerProfile        @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  
+  jobPostId             String      @unique    
+  jobPost               JobPost     @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+
+  // @@unique([userId, jobPostId])
 }
 
 model Resume {
@@ -221,20 +239,7 @@ model JobApplication {
   // resume     Resume         @relation(fields: [resumeId], references: [id], onDelete: SetNull)
 }
 
-model SavedJob {
-  id        String      @id @default(cuid())
-  savedAt   DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
 
-  // --- relations ---
-  jobSeekerProfileId    String @unique     
-  jobSeekerProfile      JobSeekerProfile        @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
-  
-  jobPostId String      @unique
-  jobPost   JobPost     @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
-
-  // @@unique([userId, jobPostId])
-}
 
 
 // model JobSeekerSkill {

@@ -23,10 +23,13 @@ export const savedJob = async (state: any, formData: FormData) => {
     });
     console.log(JobSeekerProfile, "JobSeekerProfileId a");
 
-    const existingSavedJob = await prisma.savedJob.findUnique({
+    const existingSavedJob = await prisma.savedJob.findFirst({
       where: {
-        jobSeekerProfileId: JobSeekerProfile?.id || "",
+        jobPostId: validatedData.jobPostId,
       },
+      // where: {
+      //   jobSeekerProfileId: JobSeekerProfile?.id || "",
+      // },
     });
 
     if (existingSavedJob) {

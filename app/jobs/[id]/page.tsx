@@ -15,7 +15,7 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
   const { id } = await params;
   // const { jobId } = params.id;
 
-  const [job, jobs, resume] = await Promise.all([
+  const [job, jobs, resume, saved] = await Promise.all([
     // Fetch the single job details
     prisma.jobPost.findUnique({
       where: {
@@ -41,7 +41,15 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
     // prisma.jobApplication.findUnique({
     //   where: { jobPostId: id },
     // }),
+
+    // to validate the job,
+    // prisma.savedJob.findMany(),
+    prisma.savedJob.findMany({
+      where: { jobPostId: id },
+    }),
   ]);
+
+  console.log(saved, " savejob list");
 
   if (!job) {
     return <div>Job not found</div>;
@@ -53,12 +61,35 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
       {/* Add more job details here */}
 
       <div className="flex flex-col  p-2 m-1 mx-auto  text-sky-400 ">
+        {saved?.map((save) => (
+          <div>
+            {save.jobPostId === job.id ? (
+              <div className=" text-green-500">
+                Hello {save.jobPostId} and {job.id}
+              </div>
+            ) : (
+              <div className="bg-yellow-500">
+                {save.jobPostId} and {job.id} world
+              </div>
+            )}
+          </div>
+        ))}
         {jobs.map((job) => (
           <Link
             href={`/jobs/${job.id}`}
             key={job.id}
             className="border p-2 m-1"
           >
+            {/* {job.id === saved?.jobPostId ? (
+              <div className="bg-pink-500 p-5 m-5">
+                Hello True {job.id} and {saved?.jobPostId}
+              </div>
+            ) : (
+              <div className="bg-pink-500 p-5 m-5">
+                World False {job.id} and {saved?.jobPostId}
+              </div>
+            )} */}
+
             <p>{job.title}</p>
             <p>{job.description}</p>
           </Link>
@@ -72,6 +103,7 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
         </p>
         <div className="flex">
           <ApplicationForm />
+          {/* {saved?.id === jobs.map((job) => job.id)} */}
           <SaveForm jobPostId={id} />
         </div>
         <div className="mb-6">
