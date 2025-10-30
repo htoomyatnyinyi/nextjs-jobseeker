@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "../theme/ModeToggle";
+import SignOutForm from "@/app/(auth)/signout/form";
 
 const COMMON_LINKS = [
   { name: "home", path: "/" },
@@ -13,6 +14,7 @@ const COMMON_LINKS = [
 const USER_LINKS = [
   { name: "jobs", path: "/jobs" },
   { name: "User Profile", path: "/user/profile" },
+  { name: "User Resume", path: "/user/resume" },
   { name: "User Dashboard", path: "/user/dashboard" },
 ];
 
@@ -24,7 +26,13 @@ const EMPLOYER_LINKS = [
 ];
 
 // Define the component with a clear type for the role prop
-const Links = ({ role }: { role?: "USER" | "EMPLOYER" | null }) => {
+const Links = ({
+  role,
+  userId,
+}: {
+  role?: "USER" | "EMPLOYER" | null;
+  userId: string | undefined;
+}) => {
   const pathname = usePathname();
 
   // 1. Determine the set of links based on the role
@@ -65,6 +73,7 @@ const Links = ({ role }: { role?: "USER" | "EMPLOYER" | null }) => {
         </div>
       ))}
       <ModeToggle />
+      <SignOutForm userId={userId} />
     </div>
   );
 };

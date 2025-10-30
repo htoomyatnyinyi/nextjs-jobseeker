@@ -4,6 +4,7 @@ import { SignJWT, jwtVerify } from "jose"; // Using 'jose' is modern and recomme
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import prisma from "./prisma";
+import { success } from "zod";
 
 const secretKey = process.env.JWT_SECRET || "htoomyat";
 const key = new TextEncoder().encode(secretKey);
@@ -88,7 +89,7 @@ export const verifySession = async () => {
   const session = cookieStore.get("session")?.value;
   // console.log(cookieStore, " at verify session", session, "data");
   if (!session) {
-    return null;
+    return { success: false, message: "No session found" };
   }
   const dsession = await decrypt(session);
   // console.log(dsession);
@@ -100,12 +101,15 @@ export const verifySession = async () => {
   });
 
   if (!user) {
-    return null;
+    // redirect("/signin");
+    return { success: false, message: "User not found" };
   }
 
-  if (!user.verified) {
-    redirect("/verify-email");
-  }
+  // // Uncomment This to prevent looping verifyemail
+  // if (!user.verified) {
+  //   redirect("/verifyemail");
+  // }
+
   // console.log(user, "d");
 
   // id to userId changed
@@ -116,5 +120,5 @@ export const verifySession = async () => {
 export async function deleteSession() {
   const cookieStore = await cookies();
   cookieStore.delete("session");
-  redirect("/signin");
+  // redirect("/signin"); // i check this route is not working
 }

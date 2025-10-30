@@ -29,7 +29,6 @@ model User {
   // jobSeekerProfiles   JobSeekerProfile[]
   jobSeekerProfile   JobSeekerProfile?
   employerProfile    EmployerProfile?
-
 }
 
 model VerificationToken {
@@ -74,11 +73,9 @@ model JobSeekerProfile {
   // --- many relations ---
   experiences  JobSeekerExperience[]
   resumes   Resume[]
-  // jobApplication  JobApplication[]// comment first
+  jobApplication  JobApplication[]
   // jobSeekerSkill  JobSeekerSkill[]
-  // -- one to one ---
-  // saveJob   SavedJob?
-  savedJobs  SavedJob[] // i think only postId is need to set unique and userId is one to many that why i use arrary
+  // savedJob  SavedJob[]
 }
 
 model JobSeekerExperience {
@@ -148,22 +145,16 @@ model JobPost {
   responsibilities    JobResponsibility[]
   requirements        JobRequirement[]
 
-
   
   applications        JobApplication[]
 
   // savedJobs           SavedJob[]
   // skills              JobPostSkill[]
 
-  // -- one to one
-  savedJobs   SavedJob[]
-  // savedJobs   SavedJob[]
-
   @@index([title])
   @@index([location])
   @@index([category])
 }
-
 model JobResponsibility {
   id      String      @id @default(cuid())
   responsibility  String
@@ -182,23 +173,6 @@ model JobRequirement {
   jobPostId    String     
   jobPost      JobPost  @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
 }
-
-model SavedJob {
-  id        String      @id @default(cuid())
-  savedAt   DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  // --- relations ---
- // i think only postId is need to set unique and userId is one to many that why i use arrary
-  jobSeekerProfileId    String //      
-  jobSeekerProfile      JobSeekerProfile        @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
-  
-  jobPostId             String          
-  jobPost               JobPost     @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
-
-  // @@unique([userId, jobPostId])
-}
-
 model Resume {
   id         String   @id @default(cuid())
   filePath   String   
@@ -208,13 +182,11 @@ model Resume {
   updatedAt  DateTime @updatedAt
 
   // --- relations ----
-  jobSeekerId       String 
+  jobSeekerId       String      
   jobSeekerProfile  JobSeekerProfile     @relation(fields: [jobSeekerId], references: [id], onDelete: Cascade)
-  // one to one
-  jobApplication      JobApplication?
-  // one to many
-  // jobApplications      JobApplication[] // checking now
 
+  // --- many to many ---
+  // jobApplications JobApplication[]
 }
 
 model JobApplication {
@@ -223,23 +195,32 @@ model JobApplication {
   appliedAt  DateTime       @default(now()) 
   updatedAt  DateTime       @updatedAt 
 
-  // --- relations --- // uncomment first
-  // jobSeekerProfileId     String          
-  // jobSeekerProfile       JobSeekerProfile           @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  // --- relations ---
+  jobSeekerProfileId     String          
+  jobSeekerProfile       JobSeekerProfile           @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
   
   jobPostId  String         // one to one due to one person can apply unique post differnet id
-  jobPost     JobPost        @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  jobPost    JobPost        @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
   
-  resumeId    String  @unique // one to one
-  resume      Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
-
   // jobPostId  String         // many to many
   // jobPost    JobPost        @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
   // resumeId   String          
   // resume     Resume         @relation(fields: [resumeId], references: [id], onDelete: SetNull)
 }
 
+// model SavedJob {
+//   id        String      @id @default(cuid())
+//   savedAt   DateTime    @default(now())
+//   updatedAt DateTime    @updatedAt
 
+//   // --- relations ---
+//   jobSeekerProfileId    String     
+//   jobSeekerProfile      JobSeekerProfile        @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+//   jobPostId String      
+//   jobPost   JobPost     @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+
+//   // @@unique([userId, jobPostId])
+// }
 
 
 // model JobSeekerSkill {

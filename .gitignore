@@ -11,8 +11,11 @@
 !.yarn/versions
 
 ./prisma/migrations
+./public/uploads
 
 prisma/migrations
+public/uploads
+
 # testing
 /coverage
 

@@ -2,7 +2,7 @@
 import { useActionState } from "react";
 import { deleteEmployerProfile } from "./actions";
 
-const DeleteEmployerForm = ({ profile_id }: any) => {
+const DeleteEmployerForm = ({ profile_id }: { profile_id: string }) => {
   // console.log(profile_id, "profile id to delete");
   const [state, action, pending] = useActionState(deleteEmployerProfile, {
     success: false,

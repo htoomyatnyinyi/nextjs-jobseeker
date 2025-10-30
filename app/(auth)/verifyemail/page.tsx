@@ -8,19 +8,7 @@ import { resendVerificationEmail } from "./action";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      style={{
-        background: "blue",
-        color: "white",
-        padding: "0.75rem 1.5rem",
-        borderRadius: "8px",
-        border: "none",
-        cursor: pending ? "not-allowed" : "pointer",
-        opacity: pending ? 0.6 : 1,
-      }}
-    >
+    <button type="submit" disabled={pending}>
       {pending ? "Sending..." : "Resend Verification Email"}
     </button>
   );
@@ -70,6 +58,7 @@ export default function ResendVerificationPage() {
     </div>
   );
 }
+
 // "use client";
 
 // import { useFormState, useFormStatus } from "react-dom";
