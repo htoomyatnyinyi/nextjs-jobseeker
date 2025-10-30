@@ -64,11 +64,11 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
       {/* Add more job details here */}
 
       <div className="flex flex-col  p-2 m-1 mx-auto  text-sky-400 ">
-        {saved?.map((save) => (
+        {/* {saved?.map((save) => (
           <div key={save.id}>
             {save.jobPostId === job.id ? "Saved Job" : "Not Saved Job"}
           </div>
-        ))}
+        ))} */}
         {/* Show list of all jobs */}
 
         {jobs.map((job) => (
@@ -107,13 +107,13 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
             <div>{!s?.id ? "H" : "I"}</div>
           ))} */}
           <div>{saved.length} saved jobs</div>
-          <div>
+          {/* <div>
             {saved.map((s) => (
               <div key={s.id}>
                 {s.jobPostId === job.id ? "Saved Job" : "Not Saved"}
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Description</h2>
