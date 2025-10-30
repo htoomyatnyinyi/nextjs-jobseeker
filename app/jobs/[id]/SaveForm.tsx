@@ -5,19 +5,18 @@ import { savedJob } from "./actions";
 
 const SaveForm = ({
   jobPostId,
-  savedJobsList,
-}: {
+}: // savedJobsList,
+{
   jobPostId: string;
-  savedJobsList: any[];
+  // savedJobsList: any[];
 }) => {
   const [state, savedJobAction, pending] = useActionState(savedJob, null);
   console.log(state, "state at savedjob");
-  console.log(savedJobsList, "savedJobList in saveform");
 
   return (
     <div className="bg-blue-500 p-2 m-1">
       <form action={savedJobAction}>
-        <input type="text" name="jobPostId" defaultValue={jobPostId} />
+        <input type="text" name="jobPostId" defaultValue={jobPostId} hidden />
 
         <button type="submit" disabled={pending}>
           SaveJob

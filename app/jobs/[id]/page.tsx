@@ -3,6 +3,7 @@ import { JobLists } from "../_components/JobLists";
 import Link from "next/link";
 import ApplicationForm from "./ApplicationForm";
 import SaveForm from "./SaveForm";
+import { verifySession } from "@/lib/session";
 
 // Define the props for the dynamic page
 type JobDetailsPageProps = {
@@ -12,10 +13,11 @@ type JobDetailsPageProps = {
 };
 
 const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
+  const session = await verifySession(); // may be necessary
   const { id } = await params;
   // const { jobId } = params.id;
 
-  const [job, jobs, resume, saved] = await Promise.all([
+  const [job, jobs, resume, saved, test] = await Promise.all([
     // Fetch the single job details
     prisma.jobPost.findUnique({
       where: {
@@ -48,11 +50,23 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
 
     // to validate the job,
     prisma.savedJob.findMany({
-      where: { jobPostId: id },
+      where: {
+        jobPostId: id,
+        jobSeekerProfile: { userId: session?.userId },
+      },
+    }),
+
+    prisma.jobSeekerProfile.findMany({
+      where: { userId: session?.userId },
+      include: {
+        savedJobs: true,
+        resumes: true,
+        // jobApplications: true,
+      },
     }),
   ]);
 
-  console.log(resume, " savejob list");
+  // console.log(test, " test list");
 
   if (!job) {
     return <div>Job not found</div>;
@@ -102,18 +116,10 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
           <ApplicationForm />
           {/* {saved?.id === jobs.map((job) => job.id)} */}
 
-          <SaveForm jobPostId={id} savedJobsList={saved} />
-          {/* {saved.map((s) => (
-            <div>{!s?.id ? "H" : "I"}</div>
-          ))} */}
+          <SaveForm jobPostId={id} />
+          {/* <SaveForm jobPostId={id} savedJobsList={saved} /> */}
+
           <div>{saved.length} saved jobs</div>
-          {/* <div>
-            {saved.map((s) => (
-              <div key={s.id}>
-                {s.jobPostId === job.id ? "Saved Job" : "Not Saved"}
-              </div>
-            ))}
-          </div> */}
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Description</h2>
