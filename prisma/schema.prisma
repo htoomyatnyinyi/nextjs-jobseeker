@@ -74,7 +74,7 @@ model JobSeekerProfile {
   // --- many relations ---
   experiences  JobSeekerExperience[]
   resumes   Resume[]
-  // jobApplication  JobApplication[]// comment first
+  jobApplication  JobApplication[]// comment first
   // jobSeekerSkill  JobSeekerSkill[]
   // -- one to one ---
   // saveJob   SavedJob?
@@ -150,7 +150,7 @@ model JobPost {
 
 
   
-  applications        JobApplication[]
+  jobApplications        JobApplication[]
 
   // savedJobs           SavedJob[]
   // skills              JobPostSkill[]
@@ -211,9 +211,9 @@ model Resume {
   jobSeekerId       String 
   jobSeekerProfile  JobSeekerProfile     @relation(fields: [jobSeekerId], references: [id], onDelete: Cascade)
   // one to one
-  jobApplication      JobApplication?
+  // jobApplication      JobApplication?
   // one to many
-  // jobApplications      JobApplication[] // checking now
+  jobApplications      JobApplication[] // checking now
 
 }
 
@@ -224,13 +224,14 @@ model JobApplication {
   updatedAt  DateTime       @updatedAt 
 
   // --- relations --- // uncomment first
-  // jobSeekerProfileId     String          
-  // jobSeekerProfile       JobSeekerProfile           @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  jobSeekerProfileId     String          
+  jobSeekerProfile       JobSeekerProfile           @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
   
   jobPostId  String         // one to one due to one person can apply unique post differnet id
   jobPost     JobPost        @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
   
-  resumeId    String  @unique // one to one
+  resumeId    String  // one to one
+  // resumeId    String  @unique // one to one
   resume      Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   // jobPostId  String         // many to many

@@ -8,6 +8,48 @@ const SavedJobSchema = z.object({
   jobPostId: z.string().min(1, "JobPostId is Required"),
 });
 
+const ApplicationFormSchema = z.object({
+  resumeId: z.string(),
+  jobPostId: z.string(),
+  // jobPostId: z.string(),
+  jobSeekerProfileId: z.string(),
+});
+
+export const applicationJob = async (state: any, formData: FormData) => {
+  const validatedData = ApplicationFormSchema.parse({
+    resumeId: formData.get("resumeId"),
+    jobPostId: formData.get("jobPostId"),
+    jobSeekerProfileId: formData.get("jobSeekerId"),
+  });
+  console.log(validatedData, "validated applicationJob");
+
+  try {
+    const existingApplication = await prisma.jobApplication.findFirst({
+      where: {
+        resumeId: validatedData.resumeId,
+        jobPostId: validatedData.jobPostId,
+        jobSeekerProfileId: validatedData.jobSeekerProfileId,
+      },
+    });
+
+    if (existingApplication) {
+      console.log("Application already exists for this resume and job post");
+      return;
+    }
+
+    const application = await prisma.jobApplication.create({
+      data: {
+        resumeId: validatedData.resumeId,
+        jobPostId: validatedData.jobPostId,
+        jobSeekerProfileId: validatedData.jobSeekerProfileId,
+      },
+    });
+    console.log(application, "Application Created Successfully");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const savedJob = async (state: any, formData: FormData) => {
   const session = await verifySession();
   //   console.log("Session", session, "formData", formData);

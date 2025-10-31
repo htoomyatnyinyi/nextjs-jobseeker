@@ -38,7 +38,9 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
     }),
 
     // update version
-    prisma.resume.findMany(),
+    prisma.resume.findMany({
+      where: { jobSeekerProfile: { userId: session?.userId } },
+    }),
 
     // prisma.resume.findFirst({
     //   where: { jobSeekerProfile: { userId: id } },
@@ -66,7 +68,7 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
     }),
   ]);
 
-  // console.log(test, " test list");
+  // console.log(resume, " test list");
 
   if (!job) {
     return <div>Job not found</div>;
@@ -113,7 +115,12 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
           {job.location} | {job.employmentType}
         </p>
         <div className="flex">
-          <ApplicationForm />
+          {/* <ApplicationForm jobPostId={id} resumeId={resume[0].id} /> */}
+          <ApplicationForm
+            jobPostId={id}
+            resumes={resume}
+            resumeId={resume[0]?.id}
+          />
           {/* {saved?.id === jobs.map((job) => job.id)} */}
 
           <SaveForm jobPostId={id} />

@@ -11,7 +11,6 @@ const SaveForm = ({
   // savedJobsList: any[];
 }) => {
   const [state, savedJobAction, pending] = useActionState(savedJob, null);
-  console.log(state, "state at savedjob");
 
   return (
     <div className="bg-blue-500 p-2 m-1">
