@@ -15,8 +15,9 @@ const ApplicationForm = ({
   // savedJobsList: any[];
 }) => {
   const [state, applicationAction, pending] = useActionState(applicationJob, {
-    success: false,
-    message: "",
+    jobPostIdInState: jobPostId,
+    resumeIdInState: resumeId,
+    jobSeekerProfileIdInState: resumes[0]?.jobSeekerId,
   });
 
   return (
