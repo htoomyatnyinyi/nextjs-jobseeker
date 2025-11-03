@@ -12,7 +12,7 @@ const FileUploadForm = () => {
     }
   );
 
-  console.log(uploadStatus, "check");
+  // console.log(uploadStatus, "check");
 
   return (
     <form action={formAction}>

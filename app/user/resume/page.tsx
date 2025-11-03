@@ -8,26 +8,19 @@ const FileUpload = async () => {
   const profileResume = await prisma.jobSeekerProfile.findFirst({
     where: { userId: session.userId },
     include: { resumes: true },
+    orderBy: {
+      createdAt: "desc", // Sort by 'createdAt' in descending order (newest first)
+    },
   });
 
-  // ✅ Correct way: Use Next.js public folder URL
-  const pdfFile = "/uploads/1761834076890-sample.pdf"; // Note: NO "../../../public"
+  // // Use Next.js public folder URL
+  // const pdfFile = "/uploads/1761834076890-sample.pdf"; // Note: NO "../../../public"
 
   return (
     <div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis quo
-        voluptatum a odit cumque et consequatur saepe fugit labore porro.
-      </p>
-      <br />
       <FileUploadForm />
       <br />
       <div>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate
-          error eaque deserunt totam velit eligendi possimus dicta explicabo
-          molestias officia amet, aperiam eum fugit ducimus.
-        </p>
         {profileResume && profileResume.resumes.length > 0 && (
           <div>
             <div className="text-pink-500">
@@ -39,10 +32,12 @@ const FileUpload = async () => {
                 </div>
               ))}
             </div>
-            <PDFViewer fileUrl={profileResume.resumes[0].filePath} />
+            <PDFViewer fileUrl={profileResume.resumes || null} />
+            {/* <PDFViewer fileUrl={profileResume.resumes[1].filePath || null} /> */}
+            {/* <PDFViewer fileUrl={profileResume.resumes[0].filePath || null} /> */}
           </div>
         )}
-        <PDFViewer fileUrl={pdfFile} />
+        {/* <PDFViewer fileUrl={pdfFile} /> */}
       </div>
     </div>
   );
