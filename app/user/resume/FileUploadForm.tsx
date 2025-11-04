@@ -21,7 +21,7 @@ const FileUploadForm = () => {
         name="file"
         required
         placeholder="Resume File Upload Here!"
-        className="p-2 m-1 border border-sky-500 "
+        // className="p-2 m-1 border border-sky-500 "
       />
       <button
         type="submit"

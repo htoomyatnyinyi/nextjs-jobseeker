@@ -8,7 +8,7 @@ export const JobLists = async ({ jobs }: any) => {
         <Link
           key={job.id}
           href={`/jobs/${job.id}`} // <-- Use the dynamic route
-          className="block p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition duration-300 cursor-pointer"
+          className="block p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition duration-300 cursor-pointer gap-8"
         >
           <h2 className="text-xl font-semibold text-blue-700">{job.title}</h2>
           <p className="text-sm text-gray-500 mb-2">
@@ -18,7 +18,7 @@ export const JobLists = async ({ jobs }: any) => {
 
           {/* Display a summary (or none at all) */}
           <p className="text-gray-700 line-clamp-2">
-            {job.description.substring(0, 150)}...
+            {job.description.substring(0, 50)}...
           </p>
 
           {/* Remove detailed lists from the list view */}

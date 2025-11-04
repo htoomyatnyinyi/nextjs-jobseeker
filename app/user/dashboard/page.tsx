@@ -27,6 +27,7 @@ import {
   Clock,
   CheckCircle,
 } from "lucide-react";
+import FileUploadForm from "../resume/FileUploadForm";
 
 const DashboardPage = async () => {
   const session = await verifySession();
@@ -152,7 +153,7 @@ const DashboardPage = async () => {
               className="mt-4"
               variant={profile ? "outline" : "default"}
             >
-              <Link href="/dashboard/profile">
+              <Link href="/user/dashboard/profile">
                 {profile ? "Edit Profile" : "Create Profile"}
               </Link>
             </Button>
@@ -173,7 +174,7 @@ const DashboardPage = async () => {
                 {
                   applications.filter((a) => a.applicationStatus === "PENDING")
                     .length
-                }{" "}
+                }
                 pending
               </p>
             </CardContent>
