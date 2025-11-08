@@ -5,10 +5,12 @@ import { savedJob } from "./actions";
 
 const SaveForm = ({
   jobPostId,
+  isSaved,
 }: // savedJobsList,
 {
   jobPostId: string;
   // savedJobsList: any[];
+  isSaved: boolean;
 }) => {
   const [state, savedJobAction, pending] = useActionState(savedJob, null);
 
@@ -18,7 +20,8 @@ const SaveForm = ({
         <input type="text" name="jobPostId" defaultValue={jobPostId} hidden />
 
         <button type="submit" disabled={pending}>
-          SaveJob
+          {/* SaveJob */}
+          {isSaved ? "Saved" : "SaveJob"}
         </button>
       </form>
       {/* {savedJobsList.map((s) => s.id)} */}

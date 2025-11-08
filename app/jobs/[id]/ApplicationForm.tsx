@@ -47,7 +47,13 @@ const ApplicationForm = ({
             </option>
           ))}
         </select>
-        <button type="submit">Apply Now</button>
+        <button
+          type="submit"
+          disabled={pending}
+          className="p-2 m-1 border border-b-2 border-sky-500"
+        >
+          {pending ? "Applying" : "Apply Now"}
+        </button>
       </form>
     </div>
   );
