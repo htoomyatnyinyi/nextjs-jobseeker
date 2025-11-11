@@ -1,4 +1,3 @@
-// app/dashboard/employer/page.tsx
 import prisma from "@/lib/prisma";
 import { verifySession } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -26,6 +25,7 @@ import {
   XCircle,
   Eye,
 } from "lucide-react";
+import StatsGrid from "@/components/dashboard/StatsGrid";
 
 const EmployerDashboard = async () => {
   const session = await verifySession();
@@ -162,62 +162,22 @@ const EmployerDashboard = async () => {
             variant={profile ? "outline" : "default"}
             className="w-full sm:w-auto"
           >
-            <Link href="/dashboard/employer/company">
+            <Link href="/employer/dashboard/company">
               {profile ? "Edit Company" : "Create Company Profile"}
             </Link>
+            {/* <Link href="/dashboard/employer/company">
+              {profile ? "Edit Company" : "Create Company Profile"}
+            </Link> */}
           </Button>
         </CardContent>
       </Card>
 
       {/* ==== STATS GRID ==== */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-1">
-              <Briefcase className="h-4 w-4" />
-              Active Jobs
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{activeJobs}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-1">
-              <Users className="h-4 w-4" />
-              Total Applications
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalApplications}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-1">
-              <Clock className="h-4 w-4" />
-              Pending Review
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{pendingApplications}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-1">
-              <CheckCircle className="h-4 w-4" />
-              Total Jobs Posted
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{jobPosts.length}</div>
-          </CardContent>
-        </Card>
+        <StatsGrid name="Active Jobs" data={activeJobs} />
+        <StatsGrid name="Total Applications" data={totalApplications} />
+        <StatsGrid name="Pending Preview" data={pendingApplications} />
+        <StatsGrid name="Total Jobs Posted" data={jobPosts.length} />
       </div>
 
       {/* ==== RECENT JOB POSTS ==== */}

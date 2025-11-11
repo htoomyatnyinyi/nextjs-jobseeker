@@ -1,9 +1,6 @@
-// app/jobs/page.tsx
 import prisma from "@/lib/prisma";
-// import JobLists from "./_components/JobLists";
 import { Metadata } from "next";
 import { Suspense } from "react";
-// import JobListSkeleton from "./_components/JobListSkeleton";
 import JobListSkeleton from "./_components/JobListSkeleton";
 import SearchFilterBar from "./_components/SearchFilterBar";
 import { JobLists } from "./_components/JobLists";
@@ -23,9 +20,9 @@ export const metadata: Metadata = {
 export const revalidate = 300; // Refresh every 5 minutes (ISR)
 
 // Optional: Generate static params for popular filters
-// export async function generateStaticParams() {
-//   return [{ filter: "remote" }, { filter: "full-time" }];
-// }
+export async function generateStaticParams() {
+  return [{ filter: "remote" }, { filter: "full-time" }];
+}
 
 const JobsPage = async ({
   searchParams,
@@ -38,7 +35,7 @@ const JobsPage = async ({
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Header */}
-        <header className="text-center mb-12">
+        {/* <header className="text-center mb-12">
           <h1 className="text-5xl sm:text-6xl font-extrabold bg-linear-to-r from-sky-600 to-blue-600 bg-clip-text text-transparent">
             Find Your Dream Job
           </h1>
@@ -47,7 +44,7 @@ const JobsPage = async ({
               ? `Search results for "${q}"`
               : "10,000+ jobs from top companies • Updated every hour"}
           </p>
-        </header>
+        </header> */}
 
         {/* Search & Filters */}
         <SearchFilterBar initialQuery={q} />
@@ -113,6 +110,7 @@ async function JobListContent({
 }
 
 export default JobsPage;
+
 // import prisma from "@/lib/prisma";
 // import { JobLists } from "./_components/JobLists";
 // // import JobsMasterDetail from "./_components/JobMasterDetail";

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -79,6 +80,10 @@ const MobileNav = ({
             <SheetTitle className="text-3xl font-bold text-center">
               jobDiary
             </SheetTitle>
+            <SheetDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
+              aliquid similique eius repellat? Aperiam aliquam incidunt sequi,
+            </SheetDescription>
           </SheetHeader>
 
           {/* Navigation Links Section */}

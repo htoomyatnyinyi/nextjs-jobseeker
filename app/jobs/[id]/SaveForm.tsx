@@ -15,14 +15,17 @@ const SaveForm = ({
   const [state, savedJobAction, pending] = useActionState(savedJob, null);
 
   return (
-    <div className="bg-blue-500 p-2 m-1">
+    <div className="border border-blue-500 p-2 m-1">
       <form action={savedJobAction}>
         <input type="text" name="jobPostId" defaultValue={jobPostId} hidden />
 
-        <button type="submit" disabled={pending}>
-          {/* SaveJob */}
-          {isSaved ? "Saved" : "SaveJob"}
-        </button>
+        {isSaved ? (
+          "Saved Job"
+        ) : (
+          <button type="submit" disabled={pending}>
+            SaveJob
+          </button>
+        )}
       </form>
       {/* {savedJobsList.map((s) => s.id)} */}
       {/* {savedJobsList.map((savedJobList) => (

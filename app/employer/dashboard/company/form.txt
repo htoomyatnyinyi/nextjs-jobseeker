@@ -1,0 +1,107 @@
+ <form action={actionsForm}>
+        <input
+          type="text"
+          name="companyName"
+          placeholder="companyName"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.companyName}
+        />
+        <input
+          type="text"
+          name="govRegisteredNumber"
+          placeholder="govRegisteredNumber"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.govRegisteredNumber}
+        />
+        <input
+          type="tel"
+          name="phone"
+          placeholder="phone"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.phone}
+        />
+        <input
+          type="date"
+          name="establishedDate"
+          placeholder="establishedDate"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.establishedDate}
+        />
+        <input
+          type="email"
+          name="companyEmail"
+          placeholder="companyEmail"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.companyEmail}
+        />
+        <input
+          type="text"
+          name="address"
+          placeholder="address"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.address}
+        />
+        <input
+          type="text"
+          name="city"
+          placeholder="city"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.city}
+        />
+        <input
+          type="text"
+          name="state"
+          placeholder="state"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.state}
+        />
+        <input
+          type="number"
+          name="postalcode"
+          placeholder="postalcode"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.postalcode}
+        />
+        <input
+          type="text"
+          name="country"
+          placeholder="country"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.country}
+        />
+        <input
+          type="text"
+          name="webAddress"
+          placeholder="webAddress"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.webAddress}
+        />
+        <input
+          type="text"
+          name="industry"
+          placeholder="industry"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.industry}
+        />
+        <input
+          type="text"
+          name="companyDescription"
+          placeholder="companyDescription"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.companyDescription}
+        />
+        <input
+          type="text"
+          name="logoUrl"
+          placeholder="logoUrl"
+          className="p-2 m-1 border border-sky-400 text-sky-400"
+          defaultValue={mockCompanyData.logoUrl}
+        />
+        <button
+          // type="submit"
+          className="p-2 m-1 text-sky text-xl"
+          disabled={pending}
+        >
+          Submit
+        </button>
+      </form>
