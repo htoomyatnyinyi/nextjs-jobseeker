@@ -1,6 +1,11 @@
 "use client";
+
+import { useActionState } from "react";
+import { updateStatus } from "./actions";
+
 const form = () => {
-  return <div>form</div>;
+  const [state, action, pending] = useActionState(updateStatus, null);
+  return <div></div>;
 };
 
 export default form;

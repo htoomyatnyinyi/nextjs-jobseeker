@@ -32,11 +32,12 @@ const page = async () => {
 
   return (
     <div className="felx flex-col p-2 m-1 ">
-      <p>{user?.username}</p>
-      <p>{user?.email}</p>
-      <p>{user?.role}</p>
-      <p>{user?.verified}</p>
-      <div></div>
+      <div>
+        <p>{user?.username}</p>
+        <p>{user?.email}</p>
+        <p>{user?.role}</p>
+        <p>{user?.verified}</p>
+      </div>
       {/* <SignOutForm userId={session?.userId} /> */}
 
       {user?.employerProfile?.id && (

@@ -34,7 +34,7 @@ const allProtectedRoutes = [
   ...protectedRoutes.admin,
 ];
 
-export const middleware = async (req: NextRequest) => {
+export const proxy = async (req: NextRequest) => {
   const currentPath = req.nextUrl.pathname;
 
   const isProtectedRoute = allProtectedRoutes.some((route) =>

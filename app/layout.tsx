@@ -16,7 +16,7 @@ import { Toaster } from "@/components/ui/sonner";
 // });
 
 export const metadata: Metadata = {
-  title: "Htoo Myat Nyi Nyi",
+  title: "jobDiary",
   description: "I need to walk before I can run",
 };
 
