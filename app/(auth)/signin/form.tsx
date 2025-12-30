@@ -14,6 +14,7 @@ const SignInForm = () => {
           name="email"
           placeholder="email"
           className="p-2 m-1 border-2 "
+          defaultValue={"htoo@mail.com"}
         />
         {state?.errors?.email && <p>{state.errors.email}</p>}
         <input
@@ -21,6 +22,7 @@ const SignInForm = () => {
           name="password"
           placeholder="password"
           className="p-2 m-1 border-2 "
+          defaultValue={"htoo"}
         />
         {state?.errors?.password && <p>{state.errors.password}</p>}
 

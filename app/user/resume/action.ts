@@ -36,8 +36,7 @@ export async function uploadFileAction(prevState: any, formData: FormData) {
     if (!parsedData.success) {
       // Return the specific error message from the Zod validation
       const errorMessage =
-        parsedData.error.errors[0]?.message ||
-        "No file selected or file type is invalid.";
+        parsedData.error.message || "No file selected or file type is invalid.";
       return { success: false, message: errorMessage };
     }
 
