@@ -1,6 +1,7 @@
 "use client";
 import { useActionState } from "react";
 import { deleteEmployerProfile } from "./actions";
+import { DeleteIcon, Trash2Icon } from "lucide-react";
 
 const DeleteEmployerForm = ({ profile_id }: { profile_id: string }) => {
   // console.log(profile_id, "profile id to delete");
@@ -16,9 +17,10 @@ const DeleteEmployerForm = ({ profile_id }: { profile_id: string }) => {
         <button
           type="submit"
           disabled={pending}
-          className="border border-red-500 p-2 m-1"
+          className="border hover:border-red-500 p-2 m-1"
         >
-          Delete Employer Profile
+          {/* <DeleteIcon /> */}
+          <Trash2Icon />
         </button>
       </form>
     </div>

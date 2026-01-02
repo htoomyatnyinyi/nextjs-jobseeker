@@ -35,8 +35,8 @@ const page = async () => {
         </div>
       ))}
       <JobForm />
-
-      {/* <JobPostForm /> */}
+      {/* <br />
+      <JobPostForm /> */}
     </div>
   );
 };
