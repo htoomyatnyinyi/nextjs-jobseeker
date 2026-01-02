@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useActionState } from "react";
+import { useActionState } from "react";
 import { uploadFileAction } from "./action";
 
 const FileUploadForm = () => {
@@ -13,6 +13,7 @@ const FileUploadForm = () => {
   );
 
   // console.log(uploadStatus, "check");
+  // The comment seciont is very important to upload file to cloudinary
 
   return (
     <form action={formAction}>

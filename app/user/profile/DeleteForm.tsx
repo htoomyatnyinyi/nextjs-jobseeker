@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { deleteProfile } from "./actions";
+import { Trash2Icon } from "lucide-react";
 
 const DeleteForm = ({ profile_id }: any) => {
   // console.log(profile_id, "profile id to delete");
@@ -17,9 +18,9 @@ const DeleteForm = ({ profile_id }: any) => {
         <button
           type="submit"
           disabled={pending}
-          className="border border-red-500 p-2 m-1"
+          className="border hover:border-red-500 p-2 m-1"
         >
-          Delete Profile
+          <Trash2Icon />
         </button>
       </form>
     </div>

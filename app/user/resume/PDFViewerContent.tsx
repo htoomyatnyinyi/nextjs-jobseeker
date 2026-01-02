@@ -7,7 +7,7 @@ import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 // // Set the worker source (this is also client-side specific)
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-// ✅ ADD this line to serve the worker file locally
+// ADD this line to serve the worker file locally
 // pdfjs.GlobalWorkerOptions.workerSrc = `/pdf-worker.min.js`;
 
 // @ts-ignore - no type declarations for CSS side-effect import

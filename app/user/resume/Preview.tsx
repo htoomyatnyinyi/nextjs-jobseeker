@@ -8,7 +8,7 @@ import React, { useState, useRef } from "react";
 // This stands in for your actual 'uploadFileAction.ts' for demonstration.
 // It mimics the successful return structure.
 // -------------------------------------------------------------------------
-const mockUploadFileAction = async (prevState, formData) => {
+const mockUploadFileAction = async (prevState: any, formData: any) => {
   // Simulate server-side processing delay and file saving
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
