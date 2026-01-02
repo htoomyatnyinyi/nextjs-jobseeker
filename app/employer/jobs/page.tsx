@@ -17,7 +17,7 @@ const page = async () => {
 
   return (
     <div>
-      <h1>JobSection</h1>
+      <h1>JobSection List</h1>
 
       {employerJobs?.map((job) => (
         <div key={job.id} className="flex flex-col p-2 m-1 border text-sky-400">

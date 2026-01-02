@@ -1,10 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { verifySession } from "@/lib/session";
-
-const prisma = new PrismaClient();
 
 // Zod schema for validation
 const JobPostSchema = z.object({

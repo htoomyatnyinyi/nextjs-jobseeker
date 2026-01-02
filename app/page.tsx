@@ -15,10 +15,12 @@ export default function Home() {
           height={38}
           priority
         />
-        <Stats />
-        <FileUpload />
 
-        <Link href="/profile">Profile</Link>
+        <Link href="/employer/profile">Employer Profile</Link>
+        {/* <Stats /> */}
+        {/* <FileUpload /> */}
+
+        {/* <Link href="/profile">Profile</Link> */}
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
