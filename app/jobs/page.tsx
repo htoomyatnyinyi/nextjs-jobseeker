@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
-import { JobLists } from "./_components/JobLists";
+// import { JobLists } from "./_components/JobLists";
 // import JobsMasterDetail from "./_components/JobMasterDetail";
+import JobLists from "./_components/JobLists";
 
 const page = async () => {
   const jobs = await prisma.jobPost.findMany({

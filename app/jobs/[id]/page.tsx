@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { JobLists } from "../_components/JobLists";
+import JobLists from "../_components/JobLists";
 import Link from "next/link";
 import ApplicationForm from "./ApplicationForm";
 import SaveForm from "./SaveForm";
