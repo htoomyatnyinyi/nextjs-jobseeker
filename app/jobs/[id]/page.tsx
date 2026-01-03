@@ -50,7 +50,7 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
 
       {/* RIGHT CONTENT: Job Details */}
       <main className="flex-1 overflow-y-auto ">
-        <div className="max-w-4xl mx-auto p-8">
+        <div className="max-w-7xl mx-auto p-8">
           {/* Top Header Section */}
           <div className="flex justify-between items-start mb-8 pb-8 border-b">
             <div>
@@ -58,12 +58,10 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
               <div className="flex flex-wrap gap-3 0 font-medium">
                 <span className="flex items-center"> {job.location}</span>
                 <span className="">|</span>
-                <span className="flex items-center">
-                  💼 {job.employmentType}
-                </span>
+                <span className="flex items-center">{job.employmentType}</span>
                 <span className="">|</span>
                 <span className="text-green-600">
-                  💰 ${job.salaryMin.toLocaleString()} - $
+                  ${job.salaryMin.toLocaleString()} - $
                   {job.salaryMax?.toLocaleString()}
                 </span>
               </div>
