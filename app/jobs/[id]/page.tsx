@@ -1,10 +1,8 @@
 import prisma from "@/lib/prisma";
-// import JobLists from "../_components/JobLists";
 import Link from "next/link";
 import ApplicationForm from "./ApplicationForm";
 import SaveForm from "./SaveForm";
 import { verifySession } from "@/lib/session";
-import { SaveButton } from "./SaveButton";
 
 // Define the props for the dynamic page
 type JobDetailsPageProps = {
@@ -125,7 +123,6 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
           {/* {saved?.id === jobs.map((job) => job.id)} */}
 
           <SaveForm jobPostId={id} />
-          <SaveButton jobPostId={id} initialSaved={saved.length > 0} />
           {/* <SaveForm jobPostId={id} savedJobsList={saved} /> */}
 
           <div>{saved.length} saved jobs</div>
