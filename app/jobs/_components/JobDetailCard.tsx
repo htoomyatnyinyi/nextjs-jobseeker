@@ -1,20 +1,51 @@
 "use client";
 
 // Define the Job structure (match your Prisma include)
+// type Job = {
+//   id: string;
+//   title: string;
+//   description: string;
+//   salaryMin: number; // Changed to number for correct handling
+//   salaryMax: number | null; // Changed to number
+//   location: string;
+//   address: string;
+//   employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
+//   category: string;
+//   imageUrl: string;
+//   applicationDeadLine: string; // Keep as string for date input value
+//   responsibilities: { responsibility: string; displayOrder: number }[];
+//   requirements: { requirement: string; displayOrder: number }[];
+// };
+
+// type JobDetailCardProps = {
+//   job: Job;
+// };
 type Job = {
   id: string;
   title: string;
   description: string;
-  salaryMin: number; // Changed to number for correct handling
-  salaryMax: number | null; // Changed to number
-  location: string;
-  address: string;
-  employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
-  category: string;
-  imageUrl: string;
-  applicationDeadLine: string; // Keep as string for date input value
-  responsibilities: { responsibility: string; displayOrder: number }[];
-  requirements: { requirement: string; displayOrder: number }[];
+  salaryMin: number;
+  salaryMax: number | null;
+  location: string | null;
+  address: string | null;
+  // Use the actual Prisma Enum names if possible, or string as a fallback
+  employmentType:
+    | "FULL_TIME"
+    | "PART_TIME"
+    | "CONTRACT"
+    | "INTERNSHIP"
+    | "APPRENTICESHIP";
+  category: string | null;
+  imageUrl: string | null;
+  applicationDeadLine: Date | string | null; // Matches Date from Prisma or String from serialization
+  responsibilities: {
+    id: string;
+    responsibility: string;
+    displayOrder: number;
+  }[];
+  requirements: { id: string; requirement: string; displayOrder: number }[];
+  // Include metadata if you're passing it
+  createdAt: Date | string;
 };
 
 type JobDetailCardProps = {

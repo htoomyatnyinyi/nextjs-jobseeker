@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { verifySession } from "@/lib/session";
+import { revalidatePath } from "next/cache";
 import z from "zod";
 
 const SavedJobSchema = z.object({
@@ -64,7 +65,10 @@ export const applicationJob = async (state: any, formData: FormData) => {
 
 export const savedJob = async (state: any, formData: FormData) => {
   const session = await verifySession();
-  //   console.log("Session", session, "formData", formData);
+
+  if (!session?.userId) {
+    return { success: false, message: "Please login" };
+  }
 
   const validatedData = SavedJobSchema.parse({
     jobPostId: formData.get("jobPostId"),
@@ -91,16 +95,30 @@ export const savedJob = async (state: any, formData: FormData) => {
     });
 
     if (existingSavedJob) {
-      console.log("Job already saved");
-      return;
-    }
+      // original code
+      // console.log("Job already saved");
+      // return;
 
-    await prisma.savedJob.create({
-      data: {
-        jobPostId: validatedData.jobPostId,
-        jobSeekerProfileId: JobSeekerProfile?.id || "",
-      },
-    });
+      // modify to allow unsave
+      const jobPostId = await prisma.savedJob.delete({
+        where: {
+          id: existingSavedJob.id,
+        },
+      });
+      revalidatePath(`/jobs/${jobPostId.id}`);
+      revalidatePath("/dashboard/saved-jobs");
+    } else {
+      const jobPostId = await prisma.savedJob.create({
+        data: {
+          jobPostId: validatedData.jobPostId,
+          jobSeekerProfileId: JobSeekerProfile?.id || "",
+        },
+      });
+      revalidatePath(`/jobs/${jobPostId.id}`);
+      revalidatePath("/dashboard/saved-jobs");
+    }
+    // revalidatePath(`/jobs/${jobPostId.id}`);
+    // revalidatePath("/dashboard/saved-jobs");
 
     // console.log("SavedJob Created Successfully");
     // // const savedJob = await prisma.savedJob.create({

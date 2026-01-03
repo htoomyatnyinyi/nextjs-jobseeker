@@ -3,27 +3,37 @@
 import { useState } from "react";
 import JobDetailCard from "./JobDetailCard";
 
-// Define the Job structure (match your Prisma include)
 type Job = {
   id: string;
   title: string;
   description: string;
-  salaryMin: number; // Changed to number for correct handling
-  salaryMax: number | null; // Changed to number
-  location: string;
-  address: string;
-  employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
-  category: string;
-  imageUrl: string;
-  applicationDeadLine: string; // Keep as string for date input value
-  responsibilities: { responsibility: string; displayOrder: number }[];
-  requirements: { requirement: string; displayOrder: number }[];
+  salaryMin: number;
+  salaryMax: number | null;
+  location: string | null;
+  address: string | null;
+  // Use the actual Prisma Enum names if possible, or string as a fallback
+  employmentType:
+    | "FULL_TIME"
+    | "PART_TIME"
+    | "CONTRACT"
+    | "INTERNSHIP"
+    | "APPRENTICESHIP";
+  category: string | null;
+  imageUrl: string | null;
+  applicationDeadLine: Date | string | null; // Matches Date from Prisma or String from serialization
+  responsibilities: {
+    id: string;
+    responsibility: string;
+    displayOrder: number;
+  }[];
+  requirements: { id: string; requirement: string; displayOrder: number }[];
+  // Include metadata if you're passing it
+  createdAt: Date | string;
 };
 
 type JobsMasterDetailProps = {
   jobs: Job[];
 };
-
 const JobsMasterDetail = ({ jobs }: JobsMasterDetailProps) => {
   // 1. Manage the ID of the selected job in client state
   const [selectedJobId, setSelectedJobId] = useState<string | null>(
@@ -43,14 +53,14 @@ const JobsMasterDetail = ({ jobs }: JobsMasterDetailProps) => {
             <div
               key={job.id}
               onClick={() => setSelectedJobId(job.id)} // 2. Update state on click
-              className={`p-3 border rounded-lg cursor-pointer transition duration-150 ${
+              className={`p-3 h-50 border rounded-lg cursor-pointer transition duration-150 ${
                 selectedJobId === job.id
-                  ? "bg-sky-500 border-blue-500 shadow-md"
-                  : "backdrop-blur-3xl hover:bg-sky-300"
+                  ? "backdrop-blur-3xl shadow-2xl "
+                  : "backdrop-blur-3xl hover:border-2"
               }`}
             >
               <h3 className="text-lg font-semibold">{job.title}</h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm">
                 {job.location} | {job.employmentType}
               </p>
             </div>
