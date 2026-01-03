@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import Nav from "@/components/navbar/Nav";
-
+import { Analytics } from "@vercel/analytics/next";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -38,6 +38,7 @@ export default function RootLayout({
         >
           <Nav />
           {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
