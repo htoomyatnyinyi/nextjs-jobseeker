@@ -19,9 +19,9 @@ export const applicationJob = async (state: any, formData: FormData) => {
   console.log(state, "state in action");
 
   const validatedData = ApplicationFormSchema.parse({
-    resumeId: state.resumeIdInState,
-    jobPostId: state.jobPostIdInState,
-    jobSeekerProfileId: state.jobSeekerProfileIdInState,
+    resumeId: formData.get("resumeId"),
+    jobPostId: formData.get("jobPostId"),
+    jobSeekerProfileId: formData.get("jobSeekerId"),
   });
 
   // logic take from formData

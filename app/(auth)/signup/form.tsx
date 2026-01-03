@@ -16,7 +16,7 @@ const SignUpForm = () => {
           placeholder="usernmae"
           className="text-sky-400 border-2 p-2 m-1"
         />
-        {state?.errors?.username && <p>{state.errors.username}</p>}
+        {/* {state?.errors?.username && <p>{state.errors.username}</p>} */}
 
         <input
           type="email"

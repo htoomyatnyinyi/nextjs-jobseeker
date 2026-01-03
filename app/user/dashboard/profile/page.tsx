@@ -1,3 +1,10 @@
+import React from "react";
+
+const page = () => {
+  return <div>page</div>;
+};
+
+export default page;
 // import prisma from "@/lib/prisma";
 // import { verifySession } from "@/lib/session";
 // import EditForm from "./EditForm";

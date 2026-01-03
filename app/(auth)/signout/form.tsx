@@ -12,7 +12,7 @@ const SignOutForm = ({ userId }: { userId: string | undefined }) => {
   const [state, signoutaction, pending] = useActionState(signout, {
     success: false,
     message: "",
-    errors: false,
+    // errors: false,
   });
 
   return (
