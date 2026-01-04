@@ -5,6 +5,58 @@ import prisma from "@/lib/prisma";
 import { verifySession } from "@/lib/session";
 import { revalidatePath } from "next/cache";
 
+export async function deleteResumeAction(resumeId: string) {
+  const session = await verifySession();
+  if (!session) return { success: false, message: "Unauthorized" };
+  console.log(resumeId, "resumeId at delete action");
+  try {
+    // 1. Get the resume details from DB
+    const resume = await prisma.resume.findUnique({
+      where: { id: resumeId },
+      include: { jobSeekerProfile: true },
+    });
+
+    if (!resume) return { success: false, message: "Resume not found" };
+
+    // 2. Security Check: Ensure this resume belongs to the logged-in user
+    if (resume.jobSeekerProfile.userId !== session.userId) {
+      return { success: false, message: "Permission denied" };
+    }
+
+    // 3. Delete from Cloudinary
+    // If you didn't save publicId, you can try to extract it from the URL:
+    const publicId = resume.filePath
+      .split("/")
+      .slice(-2)
+      .join("/")
+      .split(".")[0];
+
+    if (publicId) {
+      await cloudinary.uploader.destroy(publicId, {
+        resource_type: "raw", // or "image" depending on how it was uploaded
+      });
+    }
+
+    // Alternative using extracted publicId
+    // if (resume.publicId) {
+    //   await cloudinary.uploader.destroy(resume.publicId, {
+    //     resource_type: "raw", // or "image" depending on how it was uploaded
+    //   });
+    // }
+
+    // 4. Delete from Database
+    await prisma.resume.delete({
+      where: { id: resumeId },
+    });
+
+    revalidatePath("/user/resume");
+    return { success: true, message: "Resume deleted successfully" };
+  } catch (error) {
+    console.error("Delete Error:", error);
+    return { success: false, message: "Failed to delete resume" };
+  }
+}
+
 export async function uploadFileAction(prevState: any, formData: FormData) {
   const session = await verifySession();
   if (!session) return { success: false, message: "Unauthorized" };
@@ -28,6 +80,7 @@ export async function uploadFileAction(prevState: any, formData: FormData) {
             folder: "resumes", // Organizes files in Cloudinary
             access_mode: "public", // update test if not necessary can remove
             type: "upload", // update test if not necessary can remove
+
             public_id: `${Date.now()}-${file.name.replace(/\.[^/.]+$/, "")}`,
           },
           (error, result) => {

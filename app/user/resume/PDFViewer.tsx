@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import FileUploadForm from "./FileUploadForm";
+import DeleteForm, { DeleteResumeButton } from "./DeleteForm";
 
 // // Dynamically import the content renderer (SSR disabled is correct)
 // const PDFViewerContent = dynamic(
@@ -65,7 +66,7 @@ const PDFViewer = ({ fileUrl: resumes }: { fileUrl: Resume[] }) => {
         </h3>
         <div className="flex flex-col gap-2">
           {resumes?.map((file) => (
-            <button
+            <div
               key={file.id}
               onClick={() => setSelectedFile(file)}
               className={`text-left p-3 rounded-xl border transition-all duration-200 ${
@@ -91,7 +92,8 @@ const PDFViewer = ({ fileUrl: resumes }: { fileUrl: Resume[] }) => {
                   </p>
                 </div>
               </div>
-            </button>
+              <DeleteResumeButton id={file.id} />
+            </div>
           ))}
         </div>
       </div>
