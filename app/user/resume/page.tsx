@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import FileUploadForm from "./FileUploadForm";
+// import FileUploadForm from "./FileUploadForm";
 import PDFViewer from "./PDFViewer";
 import { verifySession } from "@/lib/session";
 
@@ -17,21 +17,21 @@ const FileUpload = async () => {
   // const pdfFile = "/uploads/1761834076890-sample.pdf"; // Note: NO "../../../public"
 
   return (
-    <div>
-      <FileUploadForm />
-      <br />
+    <div className="py-4 px-8">
+      {/* <FileUploadForm /> */}
+      {/* <br /> */}
       <div>
         {profileResume && profileResume.resumes.length > 0 && (
           <div>
-            <div className="text-pink-500">
+            {/* <div className="text-pink-500">
               {profileResume.resumes.map((r) => (
                 <div key={r.id} className="border p-2 m-1">
-                  <p>{r.fileName}</p>
-                  <p>{r.filePath}</p>
-                  <p>{r.fileType}</p>
+                <p>{r.fileName}</p>
+                <p>{r.filePath}</p>
+                <p>{r.fileType}</p>
                 </div>
-              ))}
-            </div>
+                ))}
+                </div> */}
             <PDFViewer fileUrl={profileResume.resumes || null} />
             {/* <PDFViewer fileUrl={profileResume.resumes[1].filePath || null} /> */}
             {/* <PDFViewer fileUrl={profileResume.resumes[0].filePath || null} /> */}
