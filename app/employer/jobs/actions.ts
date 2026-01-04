@@ -255,3 +255,55 @@ export async function jobPost(_prevState: any, formData: FormData) {
     await prisma.$disconnect();
   }
 }
+
+export async function updateApplicationStatus(
+  applicationId: string,
+  status:
+    | "PENDING"
+    | "REVIEWED"
+    | "INTERVIEWED"
+    | "OFFERED"
+    | "REJECTED"
+    | "WITHDRAWN"
+) {
+  const session = await verifySession();
+  if (!session) return { success: false, message: "Unauthorized" };
+
+  try {
+    // Verify that the employer owns the job this application is for
+    const application = await prisma.jobApplication.findUnique({
+      where: { id: applicationId },
+      include: {
+        jobPost: {
+          include: {
+            employer: true,
+          },
+        },
+      },
+    });
+
+    if (
+      !application ||
+      application.jobPost.employer.userId !== session.userId
+    ) {
+      return {
+        success: false,
+        message: "Application not found or unauthorized",
+      };
+    }
+
+    await prisma.jobApplication.update({
+      where: { id: applicationId },
+      data: { applicationStatus: status },
+    });
+
+    revalidatePath(`/employer/applications/${applicationId}`);
+    revalidatePath(`/employer/jobs/${application.jobPostId}`);
+    revalidatePath("/employer/dashboard");
+
+    return { success: true, message: "Status updated successfully" };
+  } catch (error) {
+    console.error("Error updating application status:", error);
+    return { success: false, message: "Failed to update status" };
+  }
+}

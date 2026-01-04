@@ -33,6 +33,11 @@ const EMPLOYER_LINKS = [
   { name: "Employer Dashboard", path: "/employer/dashboard" },
   { name: "jobs", path: "/jobs" },
 ];
+const ADMIN_LINKS = [
+  { name: "Admin Dashboard", path: "/admin" },
+  { name: "Platform Jobs", path: "/admin/jobs" },
+  { name: "Platform Users", path: "/admin/users" },
+];
 // ------------------------------------------------------------------------
 
 // Added the 'role' prop
@@ -40,14 +45,20 @@ const MobileNav = ({
   role,
   userId,
 }: {
-  role?: "USER" | "EMPLOYER" | null;
+  role?: "USER" | "EMPLOYER" | "ADMIN" | null;
   userId: string | undefined;
 }) => {
   const pathname = usePathname();
 
   // 1. Determine the set of links based on the role
   const roleSpecificLinks =
-    role === "USER" ? USER_LINKS : role === "EMPLOYER" ? EMPLOYER_LINKS : [];
+    role === "USER"
+      ? USER_LINKS
+      : role === "EMPLOYER"
+      ? EMPLOYER_LINKS
+      : role === "ADMIN"
+      ? ADMIN_LINKS
+      : [];
 
   // 2. Filter COMMON_LINKS based on whether a role is present
   const filteredCommonLinks = COMMON_LINKS.filter((link) => {

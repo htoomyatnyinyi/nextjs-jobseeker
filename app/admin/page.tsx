@@ -230,7 +230,7 @@ const AdminDashboard = async () => {
               <CardDescription>Manage roles and access</CardDescription>
             </div>
             <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard/admin/users">View All</Link>
+              <Link href="/admin/users">View All</Link>
             </Button>
           </div>
         </CardHeader>
@@ -351,7 +351,7 @@ const AdminDashboard = async () => {
               <CardDescription>Monitor new listings</CardDescription>
             </div>
             <Button asChild variant="outline" size="sm">
-              <Link href="/dashboard/admin/jobs">View All</Link>
+              <Link href="/admin/jobs">View All</Link>
             </Button>
           </div>
         </CardHeader>
@@ -375,7 +375,7 @@ const AdminDashboard = async () => {
                     </p>
                   </div>
                   <Button size="sm" variant="ghost" asChild>
-                    <Link href={`/dashboard/admin/jobs/${job.id}`}>
+                    <Link href={`/jobs/${job.id}`}>
                       <Eye className="h-4 w-4" />
                     </Link>
                   </Button>

@@ -107,7 +107,7 @@ const EmployerDashboard = async () => {
           </p>
         </div>
         <Button asChild>
-          <Link href="/dashboard/employer/post-job">Post New Job</Link>
+          <Link href="/employer/jobs">Post New Job</Link>
         </Button>
       </div>
 
@@ -162,7 +162,7 @@ const EmployerDashboard = async () => {
             variant={profile ? "outline" : "default"}
             className="w-full sm:w-auto"
           >
-            <Link href="/dashboard/employer/company">
+            <Link href="/employer/profile">
               {profile ? "Edit Company" : "Create Company Profile"}
             </Link>
           </Button>
@@ -263,9 +263,7 @@ const EmployerDashboard = async () => {
                       {job.isActive ? "Active" : "Inactive"}
                     </Badge>
                     <Button size="sm" variant="ghost" asChild>
-                      <Link href={`/dashboard/employer/jobs/${job.id}`}>
-                        Manage
-                      </Link>
+                      <Link href={`/employer/jobs/${job.id}`}>Manage</Link>
                     </Button>
                   </div>
                 </div>
@@ -274,7 +272,7 @@ const EmployerDashboard = async () => {
           )}
           {jobPosts.length > 5 && (
             <Button asChild variant="ghost" className="w-full mt-4">
-              <Link href="/dashboard/employer/jobs">View All Jobs</Link>
+              <Link href="/employer/jobs">View All Jobs</Link>
             </Button>
           )}
         </CardContent>
@@ -340,7 +338,7 @@ const EmployerDashboard = async () => {
                       {app.applicationStatus}
                     </Badge>
                     <Button size="sm" variant="ghost" asChild>
-                      <Link href={`/dashboard/employer/applications/${app.id}`}>
+                      <Link href={`/employer/applications/${app.id}`}>
                         <Eye className="h-4 w-4" />
                       </Link>
                     </Button>
@@ -351,9 +349,7 @@ const EmployerDashboard = async () => {
           )}
           {applications.length === 10 && (
             <Button asChild variant="ghost" className="w-full mt-4">
-              <Link href="/dashboard/employer/applications">
-                View All Applications
-              </Link>
+              <Link href="/employer/applications">View All Applications</Link>
             </Button>
           )}
         </CardContent>

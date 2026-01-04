@@ -25,19 +25,31 @@ const EMPLOYER_LINKS = [
   { name: "jobs", path: "/jobs" },
 ];
 
+const ADMIN_LINKS = [
+  { name: "Admin Dashboard", path: "/admin" },
+  { name: "Platform Jobs", path: "/admin/jobs" },
+  { name: "Platform Users", path: "/admin/users" },
+];
+
 // Define the component with a clear type for the role prop
 const Links = ({
   role,
   userId,
 }: {
-  role?: "USER" | "EMPLOYER" | null;
+  role?: "USER" | "EMPLOYER" | "ADMIN" | null;
   userId: string | undefined;
 }) => {
   const pathname = usePathname();
 
   // 1. Determine the set of links based on the role
   const roleSpecificLinks =
-    role === "USER" ? USER_LINKS : role === "EMPLOYER" ? EMPLOYER_LINKS : [];
+    role === "USER"
+      ? USER_LINKS
+      : role === "EMPLOYER"
+      ? EMPLOYER_LINKS
+      : role === "ADMIN"
+      ? ADMIN_LINKS
+      : [];
 
   // 2. Filter COMMON_LINKS based on whether a role is present (i.e., USER is logged in)
   const filteredCommonLinks = COMMON_LINKS.filter((link) => {

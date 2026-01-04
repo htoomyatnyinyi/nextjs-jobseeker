@@ -8,7 +8,7 @@ export async function updateUserRole(userId: string, role: string) {
     where: { id: userId },
     data: { role: role as any },
   });
-  revalidatePath("/dashboard/admin");
+  revalidatePath("/admin");
 }
 
 export async function updateEmployerStatus(
@@ -19,5 +19,5 @@ export async function updateEmployerStatus(
     where: { id },
     data: { stats: status as any },
   });
-  revalidatePath("/dashboard/admin");
+  revalidatePath("/admin");
 }

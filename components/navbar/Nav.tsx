@@ -11,10 +11,9 @@ const Nav = async () => {
 
   // Map any roles that child components don't expect (e.g. "ADMIN") to undefined
   // and keep allowed roles as-is with a narrow type.
-  const safeRole: "USER" | "EMPLOYER" | null | undefined =
-    session?.role === "ADMIN"
-      ? undefined
-      : (session?.role as "USER" | "EMPLOYER" | null | undefined);
+  // Map any roles that child components expect
+  const safeRole: "USER" | "EMPLOYER" | "ADMIN" | null | undefined =
+    session?.role as "USER" | "EMPLOYER" | "ADMIN" | null | undefined;
 
   return (
     <div>
