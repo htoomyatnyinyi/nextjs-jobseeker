@@ -3,7 +3,7 @@ import { verifySession } from "@/lib/session";
 import JobLists from "../_components/JobLists"; // Using the design we just made
 import ApplicationForm from "./ApplicationForm";
 import SaveForm from "./SaveForm";
-import UnsaveForm from "./UnsaveForm";
+// import UnsaveForm from "./UnsaveForm";
 
 type JobDetailsPageProps = {
   params: Promise<{ id: string }>;
@@ -14,31 +14,44 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
   const { id } = await params;
 
   // Optimized parallel data fetching
-  const [job, allJobs, resumes, savedStatus] = await Promise.all([
-    prisma.jobPost.findUnique({
-      where: { id },
-      include: { requirements: true, responsibilities: true },
-    }),
-    prisma.jobPost.findMany({
-      orderBy: { createdAt: "desc" },
-    }),
-    prisma.resume.findMany({
-      where: { jobSeekerProfile: { userId: session?.userId } },
-    }),
-    prisma.savedJob.findFirst({
-      where: {
-        jobPostId: id,
-        jobSeekerProfile: { userId: session?.userId },
-      },
-      select: {
-        id: true,
-      },
-    }),
-  ]);
+  const [job, allJobs, resumes, savedStatus, appliedStatus] = await Promise.all(
+    [
+      prisma.jobPost.findUnique({
+        where: { id },
+        include: { requirements: true, responsibilities: true },
+      }),
+      prisma.jobPost.findMany({
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.resume.findMany({
+        where: { jobSeekerProfile: { userId: session?.userId } },
+      }),
+      prisma.savedJob.findFirst({
+        where: {
+          jobPostId: id,
+          jobSeekerProfile: { userId: session?.userId },
+        },
+        select: {
+          id: true,
+        },
+      }),
+      prisma.jobApplication.findFirst({
+        where: {
+          jobPostId: id,
+          // Adjust this according to your actual relation!
+          // Most common options:
+          jobSeekerProfile: { userId: session.userId },
+          // OR: userId: session.userId  (if you have direct userId in JobApplication)
+          // OR: jobSeekerId: session.userId
+        },
+        select: { id: true }, // we only care about existence
+      }),
+    ]
+  );
 
   if (!job) return <div className="p-10 text-center">Job not found</div>;
 
-  // console.log(savedStatus, "savedStatus");
+  console.log(appliedStatus, "appliedStatus");
 
   return (
     <div className="flex h-[calc(100vh-64px)] overflow-hidden ">
@@ -74,30 +87,11 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
             </div>
 
             <div className="flex flex-col gap-2 min-w-50">
-              {!savedStatus?.id && (
-                <div>
-                  <SaveForm jobPostId={id} />
-                </div>
-              )}
-
-              {savedStatus?.id && (
-                <div>
-                  <UnsaveForm savedJobId={savedStatus.id} />
-                </div>
-              )}
-
               {savedStatus?.id ? (
-                <div className="flex bg-red-400">
-                  <p>Save</p>
-                  <SaveForm jobPostId={id} />
-                </div>
+                <SaveForm jobPostId={id} savedStatus={savedStatus?.id} />
               ) : (
-                <div className="flex bg-green-400">
-                  <p>UnSave</p>
-                  <SaveForm jobPostId={id} />
-                </div>
+                <SaveForm jobPostId={id} savedStatus={savedStatus?.id} />
               )}
-              {/* <SaveForm jobPostId={id} savedStatus={savedStatus} /> */}
             </div>
           </div>
 
@@ -145,6 +139,7 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
                 <ApplicationForm
                   jobPostId={id}
                   resumes={resumes}
+                  appliedStatus={appliedStatus?.id}
                   // resumeId={resumes[0]?.id}
                 />
                 <p className="text-[10px] text-gray-400 mt-4 text-center">

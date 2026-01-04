@@ -2,13 +2,14 @@
 
 import { useActionState } from "react";
 import { savedJob } from "./actions";
+import { Heart } from "lucide-react";
 
 const SaveForm = ({
   jobPostId,
-}: // savedStatus,
-{
+  savedStatus,
+}: {
   jobPostId: string;
-  // savedStatus: any;
+  savedStatus: any;
 }) => {
   const [state, savedJobAction, pending] = useActionState(savedJob, null);
 
@@ -21,9 +22,15 @@ const SaveForm = ({
         <button
           type="submit"
           disabled={pending}
-          className="border-blue-500 text-blue-500 border px-4 py-2 rounded-md hover:bg-blue-50 transition-colors"
+          className="border-pink-500 text-pink-500 border px-4 py-2 rounded-md hover:bg-pink-50 transition-colors"
         >
-          {pending ? "Processing..." : "Save Job"}
+          {pending ? (
+            <Heart fill="white" />
+          ) : savedStatus ? (
+            <Heart fill="red" />
+          ) : (
+            <Heart fill="none" />
+          )}
         </button>
       </form>
     </div>
