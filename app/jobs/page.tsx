@@ -4,6 +4,7 @@ import JobLists from "./_components/JobLists";
 
 const page = async () => {
   const rawJobs = await prisma.jobPost.findMany({
+    where: { isActive: true }, //only active jobs will show
     include: {
       requirements: true,
       responsibilities: true,

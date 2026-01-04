@@ -35,6 +35,52 @@ const mockFrontendJob = {
 } as const;
 
 const JobForm = () => {
+  // const {
+  //   register,
+  //   control,
+  //   handleSubmit,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm<FormData>({
+  //   // Use the defined type
+  //   defaultValues: {
+  //     title: mockFrontendJob.title,
+  //     description: mockFrontendJob.description,
+  //     salaryMin: mockFrontendJob.salaryMin,
+  //     salaryMax: mockFrontendJob.salaryMax,
+  //     location: mockFrontendJob.location,
+  //     address: mockFrontendJob.address,
+  //     employmentType: mockFrontendJob.employmentType,
+  //     category: mockFrontendJob.category,
+  //     imageUrl: mockFrontendJob.imageUrl,
+  //     applicationDeadLine: mockFrontendJob.applicationDeadLine,
+  //     // title: mockFrontendJob.title,
+  //     // description: mockFrontendJob.description,
+  //     // salaryMin: mockFrontendJob.salaryMin,
+  //     // salaryMax: mockFrontendJob.salaryMax,
+  //     // location: mockFrontendJob.location,
+  //     // address: mockFrontendJob.address,
+  //     // employmentType: mockFrontendJob.employmentType,
+  //     // category: mockFrontendJob.category,
+  //     // imageUrl: mockFrontendJob.imageUrl,
+  //     // applicationDeadLine: mockFrontendJob.applicationDeadLine,
+  //     // Initialize dynamic fields with some data for demo or just empty
+  //     responsibilities: [
+  //       { responsibility: "Develop new user-facing features", displayOrder: 1 },
+  //       {
+  //         responsibility: "Optimize application for maximum speed",
+  //         displayOrder: 2,
+  //       },
+  //     ],
+  //     requirements: [
+  //       { requirement: "5+ years of professional experience", displayOrder: 1 },
+  //       { requirement: "Expertise in React and TypeScript", displayOrder: 2 },
+  //     ],
+  //   },
+  // });
+
+  // Initialize useFieldArray for dynamic lists
+
   const {
     register,
     control,
@@ -44,32 +90,20 @@ const JobForm = () => {
   } = useForm<FormData>({
     // Use the defined type
     defaultValues: {
-      title: mockFrontendJob.title,
-      description: mockFrontendJob.description,
-      salaryMin: mockFrontendJob.salaryMin,
-      salaryMax: mockFrontendJob.salaryMax,
-      location: mockFrontendJob.location,
-      address: mockFrontendJob.address,
-      employmentType: mockFrontendJob.employmentType,
-      category: mockFrontendJob.category,
-      imageUrl: mockFrontendJob.imageUrl,
-      applicationDeadLine: mockFrontendJob.applicationDeadLine,
-      // Initialize dynamic fields with some data for demo or just empty
-      responsibilities: [
-        { responsibility: "Develop new user-facing features", displayOrder: 1 },
-        {
-          responsibility: "Optimize application for maximum speed",
-          displayOrder: 2,
-        },
-      ],
-      requirements: [
-        { requirement: "5+ years of professional experience", displayOrder: 1 },
-        { requirement: "Expertise in React and TypeScript", displayOrder: 2 },
-      ],
+      title: "",
+      description: "",
+      salaryMin: 0,
+      salaryMax: 0,
+      location: "",
+      address: "",
+      employmentType: "FULL_TIME",
+      category: "",
+      imageUrl: "",
+      applicationDeadLine: "",
+      responsibilities: [],
+      requirements: [],
     },
   });
-
-  // Initialize useFieldArray for dynamic lists
   const {
     fields: responsibilityFields,
     append: appendResponsibility,
@@ -131,13 +165,13 @@ const JobForm = () => {
   // Styling classes
   const inputClass =
     "w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500";
-  const labelClass = "block text-sm font-medium text-gray-700 mb-1";
+  const labelClass = "block text-sm font-medium mb-1";
   const errorClass = "text-sm text-red-500 mt-1";
   const buttonClass =
     "p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-150";
 
   return (
-    <div className="w-full mx-auto p-8  shadow-2xl rounded-xl">
+    <div className="w-full  mx-auto p-8  shadow-2xl rounded-xl">
       <h2 className="text-3xl font-extrabold  mb-8 border-b pb-2">
         Create New Job Post
       </h2>
@@ -380,9 +414,7 @@ const JobForm = () => {
 
         {/* --- Responsibilities Section --- */}
         <div className="p-4 border rounded-lg ">
-          <h3 className="text-xl font-bold mb-4 text-gray-800">
-            Responsibilities
-          </h3>
+          <h3 className="text-xl font-bold mb-4 ">Responsibilities</h3>
           {responsibilityFields.map((field, index) => (
             <div
               key={field.id}
@@ -434,7 +466,7 @@ const JobForm = () => {
               <button
                 type="button"
                 onClick={() => removeResponsibility(index)}
-                className="h-10 w-10 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition duration-150"
+                className="h-10 w-10 bg-red-500  rounded-full flex items-center justify-center hover:bg-red-600 transition duration-150"
                 aria-label="Remove Responsibility"
               >
                 &times;
@@ -457,7 +489,7 @@ const JobForm = () => {
 
         {/* --- Requirements Section --- */}
         <div className="p-4 border rounded-lg ">
-          <h3 className="text-xl font-bold mb-4 text-gray-800">Requirements</h3>
+          <h3 className="text-xl font-bold mb-4 ">Requirements</h3>
           {requirementFields.map((field, index) => (
             <div
               key={field.id}
@@ -503,7 +535,7 @@ const JobForm = () => {
               <button
                 type="button"
                 onClick={() => removeRequirement(index)}
-                className="h-10 w-10 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition duration-150"
+                className="h-10 w-10 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 transition duration-150"
                 aria-label="Remove Requirement"
               >
                 &times;
@@ -528,12 +560,12 @@ const JobForm = () => {
         <button
           type="submit"
           disabled={pending}
-          className="w-full py-3 px-4 bg-sky-600 text-white font-semibold rounded-md hover:bg-sky-700 disabled:bg-sky-400 transition duration-150 mt-8"
+          className="w-full py-3 px-4 bg-sky-600  font-semibold rounded-md hover:bg-sky-700 disabled:bg-sky-400 transition duration-150 mt-8"
         >
           {pending ? (
             <span className="flex items-center justify-center">
               <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                className="animate-spin -ml-1 mr-3 h-5 w-5 "
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"

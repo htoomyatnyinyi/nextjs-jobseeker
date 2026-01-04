@@ -17,10 +17,11 @@ const JobDetailsPage = async ({ params }: JobDetailsPageProps) => {
   const [job, allJobs, resumes, savedStatus, appliedStatus] = await Promise.all(
     [
       prisma.jobPost.findUnique({
-        where: { id },
+        where: { id, isActive: true }, // update only active jobs will show
         include: { requirements: true, responsibilities: true },
       }),
       prisma.jobPost.findMany({
+        where: { isActive: true }, // update only active jobs will show
         orderBy: { createdAt: "desc" },
       }),
       prisma.resume.findMany({

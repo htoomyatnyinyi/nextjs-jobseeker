@@ -17,7 +17,7 @@ export async function updateEmployerStatus(
 ) {
   await prisma.employerProfile.update({
     where: { id },
-    data: { stats: status as any }, // as any is used to bypass the type error
+    data: { stats: status as any },
   });
   revalidatePath("/dashboard/admin");
 }

@@ -2,9 +2,16 @@ import { verifySession } from "@/lib/session";
 import prisma from "@/lib/prisma";
 import { DateFilter } from "@/lib/common/DateTime";
 import JobForm from "./JobForm";
+import { redirect } from "next/navigation";
+import ActiveButton from "./ActiveButton";
 
 const EmployerDashboard = async () => {
   const session = await verifySession();
+
+  if (!session) {
+    return redirect("/login");
+  }
+
   const employerJobs = await prisma.jobPost.findMany({
     where: { employer: { userId: session?.userId } },
     orderBy: { postedAt: "desc" },
@@ -14,15 +21,11 @@ const EmployerDashboard = async () => {
     <div className="max-w-7xl mx-auto p-6 space-y-10">
       <header className="flex justify-between items-center border-b pb-6">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">
-            Employer Dashboard
-          </h1>
-          <p className="text-slate-500">
-            Manage your active job postings and recruitment.
-          </p>
+          <h1 className="text-3xl font-bold ">Employer Dashboard</h1>
+          <p className="">Manage your active job postings and recruitment.</p>
         </div>
         <div className="text-right">
-          <span className="bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-sm font-medium">
+          <span className=" text-sky-500 px-3 py-1 rounded-full text-sm font-medium">
             {employerJobs.length} Active Posts
           </span>
         </div>
@@ -31,52 +34,38 @@ const EmployerDashboard = async () => {
       <section>
         <h2 className="text-xl font-semibold mb-4">Your Job Listings</h2>
         <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
-          <table className="w-full text-left border-collapse bg-white">
-            <thead className="bg-slate-50 border-b border-slate-200">
+          <table className="w-full text-left border-collapse ">
+            <thead className=" border-b border-slate-200">
               <tr>
-                <th className="p-4 font-semibold text-slate-700">Job Title</th>
-                <th className="p-4 font-semibold text-slate-700">Category</th>
-                <th className="p-4 font-semibold text-slate-700">
-                  Salary Range
-                </th>
-                <th className="p-4 font-semibold text-slate-700">
-                  Posted Date
-                </th>
-                <th className="p-4 font-semibold text-slate-700">Status</th>
+                <th className="p-4 font-semibold ">Job Title</th>
+                <th className="p-4 font-semibold ">Category</th>
+                <th className="p-4 font-semibold ">Salary Range</th>
+                <th className="p-4 font-semibold ">Posted Date</th>
+                <th className="p-4 font-semibold ">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {employerJobs.map((job) => (
                 <tr
                   key={job.id}
-                  className="hover:bg-slate-50 transition-colors"
+                  className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   <td className="p-4">
-                    <div className="font-medium text-slate-900">
-                      {job.title}
-                    </div>
-                    <div className="text-xs text-slate-400">
+                    <div className="font-medium ">{job.title}</div>
+                    <div className="text-xs ">
                       {job.location} • {job.employmentType}
                     </div>
                   </td>
-                  <td className="p-4 text-slate-600 text-sm">{job.category}</td>
-                  <td className="p-4 text-slate-600 text-sm">
+                  <td className="p-4 text-sm">{job.category}</td>
+                  <td className="p-4 text-sm">
                     ${job.salaryMin.toLocaleString()} - $
                     {job.salaryMax?.toLocaleString()}
                   </td>
-                  <td className="p-4 text-slate-600 text-sm">
+                  <td className="p-4 text-sm">
                     {DateFilter({ date: job.postedAt })}
                   </td>
-                  <td className="p-4">
-                    <span
-                      className={`px-2 py-1 rounded-md text-xs font-bold ${
-                        job.isActive
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {job.isActive ? "ACTIVE" : "INACTIVE"}
-                    </span>
+                  <td className="p-4 text-sm">
+                    <ActiveButton jobId={job.id} isActive={job.isActive} />
                   </td>
                 </tr>
               ))}
@@ -85,9 +74,9 @@ const EmployerDashboard = async () => {
         </div>
       </section>
 
-      <hr className="border-slate-200" />
+      <hr className="border-slate-100" />
 
-      <section className="bg-slate-50 p-8 rounded-2xl">
+      <section className=" rounded-2xl">
         <JobForm />
       </section>
     </div>

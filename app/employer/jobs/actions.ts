@@ -3,32 +3,77 @@
 import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { verifySession } from "@/lib/session";
+import { revalidatePath } from "next/cache";
+
+const JobPostActiveSchema = z.object({
+  jobId: z.string(),
+});
+
+export const jobPostActive = async (_prevState: any, formData: FormData) => {
+  const session = await verifySession();
+
+  if (!session) {
+    return {
+      success: false,
+      message: "Unauthorized",
+    };
+  }
+
+  const validatedData = JobPostActiveSchema.safeParse({
+    jobId: formData.get("jobId"),
+  });
+
+  if (!validatedData.success) {
+    return {
+      success: false,
+      message: "Invalid job ID",
+    };
+  }
+
+  try {
+    const jobPost = await prisma.jobPost.findUnique({
+      where: { id: validatedData.data.jobId },
+    });
+
+    if (!jobPost) {
+      return {
+        success: false,
+        message: "Job post not found",
+      };
+    }
+
+    // Toggle the active state
+    const newActiveState = !jobPost.isActive;
+
+    await prisma.jobPost.update({
+      where: { id: validatedData.data.jobId },
+      data: { isActive: newActiveState },
+    });
+
+    revalidatePath("/employer/jobs");
+
+    return {
+      success: true,
+      message: newActiveState
+        ? "Job post activated successfully"
+        : "Job post deactivated successfully",
+    };
+  } catch (error) {
+    console.error("Error toggling job post active state:", error);
+    return {
+      success: false,
+      message: "Failed to update job post status",
+    };
+  }
+};
 
 // Zod schema for validation
 const JobPostSchema = z.object({
-  //   employerId: z.string().min(1, "Employer ID is required"),
   title: z.string().min(1, "Job Title is required"),
   description: z.string().min(1, "Job Description is required"),
   salaryMin: z.number().min(0, "Minimum Salary must be positive"),
   salaryMax: z.number().min(0, "Maximum Salary must be positive").optional(),
-  // // Convert string from FormData to number
-  //   salaryMin: z.coerce
-  //     .number()
-  //     .int()
-  //     .positive("Minimum salary must be positive."),
 
-  //   // Use z.coerce.number() and set it as optional/nullable
-  //   salaryMax: z
-  //     .preprocess(
-  //       // Preprocess empty string "" to undefined so optional works correctly
-  //       (val) => (val === "" ? undefined : val),
-  //       z.coerce
-  //         .number()
-  //         .int()
-  //         .positive("Maximum salary must be positive.")
-  //         .optional()
-  //     )
-  //     .nullable(),
   location: z.string().optional(),
   address: z.string().optional(),
   employmentType: z
@@ -53,6 +98,26 @@ const JobPostSchema = z.object({
       })
     )
     .min(1, "At least one requirement is required"),
+
+  //   employerId: z.string().min(1, "Employer ID is required"),
+  // // Convert string from FormData to number
+  //   salaryMin: z.coerce
+  //     .number()
+  //     .int()
+  //     .positive("Minimum salary must be positive."),
+
+  //   // Use z.coerce.number() and set it as optional/nullable
+  //   salaryMax: z
+  //     .preprocess(
+  //       // Preprocess empty string "" to undefined so optional works correctly
+  //       (val) => (val === "" ? undefined : val),
+  //       z.coerce
+  //         .number()
+  //         .int()
+  //         .positive("Maximum salary must be positive.")
+  //         .optional()
+  //     )
+  //     .nullable(),
 });
 
 export async function jobPost(_prevState: any, formData: FormData) {
@@ -88,11 +153,11 @@ export async function jobPost(_prevState: any, formData: FormData) {
       responsibilities: JSON.parse(formData.get("responsibilities") as string),
       requirements: JSON.parse(formData.get("requirements") as string),
     };
-    console.log(data, "data");
+    // console.log(data, "data");
 
     // Validate data
     const validatedData = JobPostSchema.parse(data);
-    console.log(validatedData, "validated");
+    // console.log(validatedData, "validated");
 
     // Check if employerId exists
     const employer = await prisma.employerProfile.findUnique({
@@ -108,7 +173,7 @@ export async function jobPost(_prevState: any, formData: FormData) {
       };
     }
 
-    console.log(employer.id, "check employerId");
+    // console.log(employer.id, "check employerId");
 
     // Create job post with minimal fields (for simplicity) and nested relations
     const jobPost = await prisma.jobPost.create({
@@ -161,7 +226,9 @@ export async function jobPost(_prevState: any, formData: FormData) {
     //     },
     //   },
     // });
-    console.log(jobPost, "after inserted");
+    // console.log(jobPost, "after inserted");
+
+    revalidatePath("/employer/jobs");
 
     return {
       success: true,
@@ -177,7 +244,8 @@ export async function jobPost(_prevState: any, formData: FormData) {
         errors: error.flatten().fieldErrors,
       };
     }
-    console.error("Error creating job post:", error);
+    // console.error("Error creating job post:", error);
+
     return {
       success: false,
       message: "Failed to create job post",
