@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { deleteResumeAction } from "./action";
 
-export const DeleteResumeButton = ({ id }: { id: string }) => {
+const DeleteResumeButton = ({ id }: { id: string }) => {
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
@@ -31,3 +31,5 @@ export const DeleteResumeButton = ({ id }: { id: string }) => {
     </button>
   );
 };
+
+export default DeleteResumeButton;

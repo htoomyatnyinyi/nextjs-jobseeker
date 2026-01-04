@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import FileUploadForm from "./FileUploadForm";
-import DeleteForm, { DeleteResumeButton } from "./DeleteForm";
+import DeleteResumeButton from "./DeleteResumeButton";
 
 // // Dynamically import the content renderer (SSR disabled is correct)
 // const PDFViewerContent = dynamic(
