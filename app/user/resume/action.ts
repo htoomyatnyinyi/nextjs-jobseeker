@@ -41,7 +41,7 @@ export async function deleteResumeAction(resumeId: string) {
     if (publicId) {
       await cloudinary.uploader.destroy(publicId, {
         // resource_type: "raw", // or "image" depending on how it was uploaded
-        resource_type: "auto",
+        resource_type: "pdf", // or "image" depending on how it was uploaded
       });
     }
 
