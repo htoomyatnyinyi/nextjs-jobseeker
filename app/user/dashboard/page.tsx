@@ -68,6 +68,7 @@ const DashboardPage = async () => {
         include: {
           jobPost: {
             select: {
+              id: true,
               title: true,
               employer: { select: { companyName: true } },
               location: true,
@@ -237,7 +238,8 @@ const DashboardPage = async () => {
             ) : (
               <div className="space-y-4">
                 {applications.slice(0, 5).map((app) => (
-                  <div
+                  <Link
+                    href={`/jobs/${app.jobPost.id}`} // to get job post id from prisma.jobpost.id set to true
                     key={app.id}
                     className="flex items-center justify-between p-4 border rounded-lg"
                   >
@@ -268,7 +270,7 @@ const DashboardPage = async () => {
                         {format(app.appliedAt, "MMM d")}
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}
