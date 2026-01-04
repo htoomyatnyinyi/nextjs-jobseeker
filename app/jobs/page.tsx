@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import JobsMasterDetail from "./_components/JobMasterDetail";
+// import JobsMasterDetail from "./_components/JobMasterDetail";
 import JobLists from "./_components/JobLists";
 
 const page = async () => {

@@ -3,9 +3,16 @@
 import { useActionState } from "react";
 import { savedJob } from "./actions";
 
-const SaveForm = ({ jobPostId }: { jobPostId: string }) => {
+const SaveForm = ({
+  jobPostId,
+}: // savedStatus,
+{
+  jobPostId: string;
+  // savedStatus: any;
+}) => {
   const [state, savedJobAction, pending] = useActionState(savedJob, null);
 
+  // console.log(jobPostId, "state", savedStatus);
   return (
     <div className="">
       <form action={savedJobAction}>
@@ -19,12 +26,6 @@ const SaveForm = ({ jobPostId }: { jobPostId: string }) => {
           {pending ? "Processing..." : "Save Job"}
         </button>
       </form>
-      {/* {savedJobsList.map((s) => s.id)} */}
-      {/* {savedJobsList.map((savedJobList) => (
-        <div key={savedJobList.id}>
-          {savedJobList.jobPostId === jobPostId ? "Saved Job" : "Not Saved"}
-        </div>
-      ))} */}
     </div>
   );
 };

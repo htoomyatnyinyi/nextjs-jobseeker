@@ -9,6 +9,10 @@ const SavedJobSchema = z.object({
   jobPostId: z.string().min(1, "JobPostId is Required"),
 });
 
+const UnsaveJobSchema = z.object({
+  savedJobId: z.string().min(1, "UnsaveJobId is Required"),
+});
+
 const ApplicationFormSchema = z.object({
   resumeId: z.string(),
   jobPostId: z.string(),
@@ -63,6 +67,62 @@ export const applicationJob = async (state: any, formData: FormData) => {
   }
 };
 
+export const unsaveJob = async (state: any, formData: FormData) => {
+  const session = await verifySession();
+
+  if (!session?.userId) {
+    return { success: false, message: "Please login" };
+  }
+
+  const validatedData = UnsaveJobSchema.parse({
+    savedJobId: formData.get("savedJobId"),
+  });
+
+  // console.log(validatedData, "validated");
+  try {
+    const JobSeekerProfile = await prisma.jobSeekerProfile.findUnique({
+      where: { userId: session?.userId },
+      select: {
+        id: true,
+      }, //  to return the profile id only that why i return wit selected profile id  is true
+    });
+
+    // console.log(JobSeekerProfile, "JobSeekerProfileId a");
+
+    const existingSavedJob = await prisma.savedJob.findFirst({
+      where: {
+        id: validatedData.savedJobId,
+        jobSeekerProfileId: JobSeekerProfile?.id,
+      },
+    });
+
+    if (existingSavedJob) {
+      await prisma.savedJob.delete({
+        where: {
+          id: existingSavedJob.id,
+        },
+      });
+      revalidatePath(`/jobs/${existingSavedJob.jobPostId}`);
+      revalidatePath("/dashboard/saved-jobs");
+      return { success: true, message: "Job unsaved successfully" };
+    }
+
+    return { success: false, message: "Job was not saved" };
+
+    // console.log("SavedJob Created Successfully");
+    // // const savedJob = await prisma.savedJob.create({
+    // //   data: {
+    // //     jobPostId: validatedData.jobPostId,
+    // //     // jobSeekerProfileId: profileId,
+    // //     jobSeekerProfileId: JobSeekerProfileId?.id || "",
+    // //   },
+    // // });
+    // // console.log(savedJob, "SavedJob Created Successfully");
+  } catch (error) {
+    console.error(error, "Failed");
+  }
+};
+
 export const savedJob = async (state: any, formData: FormData) => {
   const session = await verifySession();
 
@@ -74,7 +134,7 @@ export const savedJob = async (state: any, formData: FormData) => {
     jobPostId: formData.get("jobPostId"),
   });
 
-  console.log(validatedData, "validated");
+  // console.log(validatedData, "validated");
   try {
     const JobSeekerProfile = await prisma.jobSeekerProfile.findUnique({
       where: { userId: session?.userId },
@@ -82,7 +142,8 @@ export const savedJob = async (state: any, formData: FormData) => {
         id: true,
       }, //  to return the profile id only that why i return wit selected profile id  is true
     });
-    console.log(JobSeekerProfile, "JobSeekerProfileId a");
+
+    // console.log(JobSeekerProfile, "JobSeekerProfileId a");
 
     const existingSavedJob = await prisma.savedJob.findFirst({
       where: {
