@@ -83,6 +83,7 @@ const DashboardPage = async () => {
         include: {
           jobPost: {
             select: {
+              id: true,
               title: true,
               salaryMin: true,
               location: true,
@@ -296,10 +297,13 @@ const DashboardPage = async () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {savedJobs.slice(0, 4).map((saved) => (
-                  <div
+                  <Link
+                    href={`/jobs/${saved.jobPost.id}`}
                     key={saved.id}
-                    className="flex items-start gap-3 p-3 border rounded-lg"
+                    className="flex items-start gap-3 p-3 border rounded-lg hover:shadow-md transition-shadow"
                   >
+                    {/* <Link href={`/jobs/${saved.jobPost.id}`} className="flex"> */}
+                    {/* <Briefcase className="h-5 w-5 text-blue-500 mt-1" /> */}
                     <Heart
                       className="h-5 w-5 text-red-500 mt-1"
                       fill="currentColor"
@@ -324,7 +328,8 @@ const DashboardPage = async () => {
                         )}
                       </div>
                     </div>
-                  </div>
+                    {/* </Link> */}
+                  </Link>
                 ))}
               </div>
             )}

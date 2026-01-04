@@ -32,7 +32,7 @@ const FileUpload = async () => {
         </div>
       ) : (
         <div>
-          <p className="mt-4 text-gray-500">No resumes uploaded yet.</p>
+          {/* <p className="mt-4 text-gray-500">No resumes uploaded yet.</p> */}
           <FileUploadForm />
         </div>
       )}

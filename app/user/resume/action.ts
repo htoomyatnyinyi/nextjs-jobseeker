@@ -31,12 +31,12 @@ export async function deleteResumeAction(resumeId: string) {
       .join("/")
       .split(".")[0];
 
-    console.log(
-      resume.filePath,
-      "resume file path at delete action",
-      publicId,
-      " extracted publicId at delete action"
-    );
+    // console.log(
+    //   resume.filePath,
+    //   "resume file path at delete action",
+    //   publicId,
+    //   " extracted publicId at delete action"
+    // );
 
     if (publicId) {
       await cloudinary.uploader.destroy(publicId, {
