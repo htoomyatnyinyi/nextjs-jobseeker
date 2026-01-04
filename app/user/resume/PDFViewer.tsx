@@ -130,6 +130,7 @@ const PDFViewer = ({ fileUrl: resumes }: { fileUrl: Resume[] }) => {
 };
 
 export default PDFViewer;
+
 // "use client";
 
 // import dynamic from "next/dynamic";

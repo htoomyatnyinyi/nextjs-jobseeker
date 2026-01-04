@@ -27,7 +27,7 @@ const ApplicationForm = ({
           Please upload a resume before applying.
         </p>
         <Link
-          href="/profile/resumes/upload"
+          href="/user/resume"
           className="text-xs bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors inline-block"
         >
           Upload Now

@@ -13,27 +13,19 @@ const FileUpload = async () => {
     },
   });
 
+  // console.log(profileResume, " profileResume in file upload page");
+
   // // Use Next.js public folder URL
   // const pdfFile = "/uploads/1761834076890-sample.pdf"; // Note: NO "../../../public"
 
-  console.log(profileResume, " profileResume in FileUpload");
-  if (profileResume) {
-    console.log(profileResume.resumes, " profileResume.resumes");
-  }
+  // if (profileResume) {
+  //   console.log(profileResume.resumes, " profileResume.resumes");
+  // }
 
   return (
     <div className="py-4 px-8">
       {profileResume && profileResume.resumes.length > 0 ? (
         <div>
-          {/* <div className="text-pink-500">
-              {profileResume.resumes.map((r) => (
-                <div key={r.id} className="border p-2 m-1">
-                <p>{r.fileName}</p>
-                <p>{r.filePath}</p>
-                <p>{r.fileType}</p>
-                </div>
-                ))}
-                </div> */}
           <PDFViewer fileUrl={profileResume.resumes || null} />
           {/* <PDFViewer fileUrl={profileResume.resumes[1].filePath || null} /> */}
           {/* <PDFViewer fileUrl={profileResume.resumes[0].filePath || null} /> */}

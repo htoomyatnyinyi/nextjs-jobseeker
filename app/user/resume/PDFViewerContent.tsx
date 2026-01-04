@@ -2,12 +2,12 @@
 
 import { Document, Page, pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-
 // @ts-ignore - no type declarations for CSS side-effect import
 import "react-pdf/dist/Page/AnnotationLayer.css";
 // @ts-ignore - no type declarations for CSS side-effect import
 import "react-pdf/dist/Page/TextLayer.css";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface PDFViewerContentProps {
   fileUrl: string | { filePath: string };
@@ -22,6 +22,7 @@ export default function PDFViewerContent({
 }: PDFViewerContentProps) {
   // Extract the string path regardless of whether a string or object was passed
   const source = typeof fileUrl === "string" ? fileUrl : fileUrl?.filePath;
+  // const source = "";
 
   return (
     <div className="flex flex-col items-center w-full  p-4 rounded-lg">
