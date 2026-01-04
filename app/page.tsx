@@ -32,6 +32,11 @@ export default function Home() {
           <li className="tracking-[-.01em]">
             Save and see your changes instantly.
           </li>
+          <li>
+            Admin Account: email: admin@mail.com, password: admin Employer
+            Account: email: htoo@mail.com, password: htoo Jobseeker Account:
+            email: user@mail.com, password: user
+          </li>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
