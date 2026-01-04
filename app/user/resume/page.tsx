@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-// import FileUploadForm from "./FileUploadForm";
+import FileUploadForm from "./FileUploadForm";
 import PDFViewer from "./PDFViewer";
 import { verifySession } from "@/lib/session";
 
@@ -16,14 +16,16 @@ const FileUpload = async () => {
   // // Use Next.js public folder URL
   // const pdfFile = "/uploads/1761834076890-sample.pdf"; // Note: NO "../../../public"
 
+  console.log(profileResume, " profileResume in FileUpload");
+  if (profileResume) {
+    console.log(profileResume.resumes, " profileResume.resumes");
+  }
+
   return (
     <div className="py-4 px-8">
-      {/* <FileUploadForm /> */}
-      {/* <br /> */}
-      <div>
-        {profileResume && profileResume.resumes.length > 0 && (
-          <div>
-            {/* <div className="text-pink-500">
+      {profileResume && profileResume.resumes.length > 0 ? (
+        <div>
+          {/* <div className="text-pink-500">
               {profileResume.resumes.map((r) => (
                 <div key={r.id} className="border p-2 m-1">
                 <p>{r.fileName}</p>
@@ -32,13 +34,16 @@ const FileUpload = async () => {
                 </div>
                 ))}
                 </div> */}
-            <PDFViewer fileUrl={profileResume.resumes || null} />
-            {/* <PDFViewer fileUrl={profileResume.resumes[1].filePath || null} /> */}
-            {/* <PDFViewer fileUrl={profileResume.resumes[0].filePath || null} /> */}
-          </div>
-        )}
-        {/* <PDFViewer fileUrl={pdfFile} /> */}
-      </div>
+          <PDFViewer fileUrl={profileResume.resumes || null} />
+          {/* <PDFViewer fileUrl={profileResume.resumes[1].filePath || null} /> */}
+          {/* <PDFViewer fileUrl={profileResume.resumes[0].filePath || null} /> */}
+        </div>
+      ) : (
+        <div>
+          <p className="mt-4 text-gray-500">No resumes uploaded yet.</p>
+          <FileUploadForm />
+        </div>
+      )}
     </div>
   );
 };
