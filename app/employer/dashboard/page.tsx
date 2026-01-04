@@ -235,10 +235,7 @@ const EmployerDashboard = async () => {
             <div className="text-center py-8">
               <p className="text-muted-foreground">
                 No jobs posted.{" "}
-                <Link
-                  href="/dashboard/employer/post-job"
-                  className="underline font-medium"
-                >
+                <Link href="/employer/jobs" className="underline font-medium">
                   Post your first job!
                 </Link>
               </p>
