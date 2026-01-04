@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 export async function deleteResumeAction(resumeId: string) {
   const session = await verifySession();
   if (!session) return { success: false, message: "Unauthorized" };
-  console.log(resumeId, "resumeId at delete action");
+  // console.log(resumeId, "resumeId at delete action");
   try {
     // 1. Get the resume details from DB
     const resume = await prisma.resume.findUnique({
@@ -31,9 +31,17 @@ export async function deleteResumeAction(resumeId: string) {
       .join("/")
       .split(".")[0];
 
+    console.log(
+      resume.filePath,
+      "resume file path at delete action",
+      publicId,
+      " extracted publicId at delete action"
+    );
+
     if (publicId) {
       await cloudinary.uploader.destroy(publicId, {
-        resource_type: "raw", // or "image" depending on how it was uploaded
+        // resource_type: "raw", // or "image" depending on how it was uploaded
+        resource_type: "auto",
       });
     }
 
